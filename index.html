@@ -217,15 +217,19 @@
   .tag-pill:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
 
   /* ---------- fleet: editorial list ---------- */
+  [id]{ scroll-margin-top:96px; }
   .fleet-list{ border-top:1px solid var(--line); }
+  .fleet-item{ border-bottom:1px solid var(--line); }
   .fleet-row{
     display:grid;
     grid-template-columns:64px 1.6fr 1.1fr auto;
     gap:32px;
     align-items:start;
-    padding:38px 0;
-    border-bottom:1px solid var(--line);
+    padding:38px 0 18px;
   }
+  .fleet-group-head{ padding:30px 0 4px; border-top:2px solid var(--ink); margin-top:6px; }
+  .fleet-group-head .eyebrow{ color:var(--ink); font-weight:700; }
+  .fleet-group-head p{ margin:6px 0 0; font-size:14px; color:var(--ink-soft); }
   .fleet-num{ font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--accent); padding-top:4px; }
   .fleet-main h3{ font-size:25px; font-weight:700; }
   .fleet-main .sub{ font-size:14px; color:var(--ink-soft); margin-top:4px; }
@@ -240,7 +244,7 @@
   .fleet-specs ul{ margin:8px 0 0; padding:0; list-style:none; }
   .fleet-specs li{ padding:2px 0; }
   .fleet-specs li::before{ content:"— "; opacity:0.45; }
-  .fleet-note{ font-size:11.5px; color:var(--ink-soft); opacity:0.75; margin-top:6px; max-width:34ch; }
+  .fleet-note, .price-note{ font-size:11.5px; color:var(--ink-soft); opacity:0.75; margin-top:6px; max-width:34ch; }
   .btn-line-dark{
     border:1px solid var(--ink); color:var(--ink);
     padding:12px 20px; border-radius:2px;
@@ -249,6 +253,30 @@
     transition:background .2s ease, color .2s ease;
   }
   .btn-line-dark:hover{ background:var(--ink); color:var(--paper); }
+
+  /* fleet detail accordion */
+  .fleet-detail{ padding:0 0 22px; }
+  .fleet-detail summary{
+    font-size:13px; font-weight:600; color:var(--accent-deep);
+    list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+  }
+  .fleet-detail summary::-webkit-details-marker{ display:none; }
+  .fleet-detail summary::after{ content:"↓"; font-size:11px; transition:transform .2s ease; }
+  .fleet-detail[open] summary::after{ transform:rotate(180deg); }
+  .fleet-detail-body{ margin-top:18px; padding-top:18px; border-top:1px dashed var(--line); }
+  .detail-photos{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
+  .photo-slot{
+    aspect-ratio:4/3; border-radius:2px;
+    background:repeating-linear-gradient(45deg, #eee9dd 0 10px, #e7e1d2 10px 20px);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);
+    border:1px dashed var(--line);
+  }
+  .spec-table{ width:100%; border-collapse:collapse; font-size:14px; }
+  .spec-table td{ padding:9px 0; border-bottom:1px solid var(--line-soft); }
+  .spec-table td:first-child{ color:var(--ink-soft); width:46%; }
+  .spec-table td:last-child{ font-weight:600; }
+  .detail-note{ font-size:12.5px; color:var(--ink-soft); margin-top:14px; }
 
   /* ---------- process: numbered vertical ---------- */
   .process-band{ background:var(--night); color:var(--paper); }
@@ -282,9 +310,28 @@
   .tools-band{ background:#f1efe9; }
   .tools-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px; }
   .tools-list{ margin-top:30px; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-  .tools-item{ background:#f1efe9; padding:22px; }
-  .tools-item h4{ font-size:15px; font-weight:700; }
-  .tools-item p{ margin:8px 0 0; font-size:13.5px; color:var(--ink-soft); }
+  .tools-item{ background:#f1efe9; padding:0; }
+  .tools-item summary{
+    padding:22px; cursor:pointer; list-style:none;
+    display:flex; flex-direction:column; align-items:flex-start;
+  }
+  .tools-item summary::-webkit-details-marker{ display:none; }
+  .tools-item summary::after{
+    content:"+ weitere Modelle"; margin-top:12px;
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.04em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .tools-item[open] summary::after{ content:"– einklappen"; }
+  .tools-item h4{ font-size:15px; font-weight:700; margin:0; }
+  .tools-item summary p{ margin:8px 0 0; font-size:13.5px; color:var(--ink-soft); }
+  .tools-sub{ list-style:none; margin:0; padding:0 22px 20px; }
+  .tools-sub li{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    padding:10px 0; border-top:1px solid var(--line);
+    font-size:13.5px;
+  }
+  .tools-sub li a{ color:var(--accent-deep); font-weight:600; text-decoration:none; white-space:nowrap; font-size:12.5px; }
+  .tools-sub li a:hover{ text-decoration:underline; }
   .tools-cta{ margin-top:24px; font-size:14px; }
   .tools-cta a{ color:var(--accent-deep); font-weight:600; text-decoration:underline; }
 
@@ -416,10 +463,12 @@
     .tag-pill{ flex:0 0 auto; }
 
     /* fleet rows */
-    .fleet-row{ padding:28px 0; row-gap:12px; }
+    .fleet-row{ padding:28px 0 14px; row-gap:12px; }
     .fleet-main h3{ font-size:21px; }
     .fleet-specs .price{ font-size:21px; }
     .btn-line-dark{ width:100%; text-align:center; }
+    .detail-photos{ grid-template-columns:1fr 1fr; }
+    .fleet-group-head{ padding:22px 0 2px; }
 
     /* process */
     .process-row{ grid-template-columns:44px 1fr; gap:16px; padding:24px 0; }
@@ -569,107 +618,289 @@
 
     <div style="margin-top:36px;" class="reveal">
       <div class="tag-row">
-        <a class="tag-pill" href="#flotte">Kombi</a>
-        <a class="tag-pill" href="#flotte">8/9-Sitzer Bus</a>
-        <a class="tag-pill" href="#flotte">Sprinter Kasten</a>
-        <a class="tag-pill" href="#flotte">Planenanhänger</a>
-        <a class="tag-pill" href="#flotte">Motorradanhänger</a>
-        <a class="tag-pill" href="#flotte">Kipper 3,5t</a>
-        <a class="tag-pill" href="#flotte">Autotransporter 2,7t</a>
+        <a class="tag-pill" href="#kombi">Kombi</a>
+        <a class="tag-pill" href="#bus">8/9-Sitzer Bus</a>
+        <a class="tag-pill" href="#sprinter">Sprinter Kasten</a>
+        <a class="tag-pill" href="#planenanhaenger">Planenanhänger</a>
+        <a class="tag-pill" href="#motorradanhaenger">Motorradanhänger</a>
+        <a class="tag-pill" href="#kipper">Kipper 3,5t</a>
+        <a class="tag-pill" href="#autotransporter">Autotransporter 2,7t</a>
         <a class="tag-pill" href="#werkzeug">Werkzeug</a>
       </div>
     </div>
 
     <div class="fleet-list" style="margin-top:44px;">
 
-      <div class="fleet-row reveal">
-        <div class="fleet-num">01</div>
-        <div class="fleet-main">
-          <h3>5-Sitzer Kombi</h3>
-          <div class="sub">Pkw für Alltag &amp; Projekt</div>
-          <div class="fleet-tagset">
-            <span class="fleet-tag">Škoda Octavia</span>
-            <span class="fleet-tag">Opel Astra</span>
+      <article class="fleet-item reveal" id="kombi">
+        <div class="fleet-row">
+          <div class="fleet-num">01</div>
+          <div class="fleet-main">
+            <h3>5-Sitzer Kombi</h3>
+            <div class="sub">Pkw für Alltag &amp; Projekt</div>
+            <div class="fleet-tagset">
+              <span class="fleet-tag">Škoda Octavia</span>
+              <span class="fleet-tag">Opel Astra</span>
+            </div>
           </div>
+          <div class="fleet-specs">
+            <div class="price">50 € <sup>/ Tag</sup></div>
+            <ul>
+              <li>Viel Stauraum</li>
+              <li>Sparsam im Verbrauch</li>
+              <li>Individuelle KM-Pakete</li>
+            </ul>
+          </div>
+          <a class="btn-line-dark" target="_blank" rel="noopener"
+             href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%205-Sitzer%20Kombi.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Kombi anfragen</a>
         </div>
-        <div class="fleet-specs">
-          <div class="price">50 € <sup>/ Tag</sup></div>
-          <ul>
-            <li>Viel Stauraum</li>
-            <li>Sparsam im Verbrauch</li>
-            <li>Individuelle KM-Pakete</li>
-          </ul>
+        <details class="fleet-detail">
+          <summary>Details &amp; technische Daten</summary>
+          <div class="fleet-detail-body">
+            <div class="detail-photos">
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+            </div>
+            <table class="spec-table">
+              <tr><td>Sitzplätze</td><td>5</td></tr>
+              <tr><td>Kofferraum</td><td>Daten folgen</td></tr>
+              <tr><td>Getriebe</td><td>Daten folgen</td></tr>
+              <tr><td>Kraftstoff</td><td>Daten folgen</td></tr>
+            </table>
+            <p class="detail-note">Fotos und genaue technische Daten folgen in Kürze.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="fleet-item reveal" id="bus">
+        <div class="fleet-row">
+          <div class="fleet-num">02</div>
+          <div class="fleet-main">
+            <h3>8- &amp; 9-Sitzer Bus</h3>
+            <div class="sub">VW T5 / T6 — Topseller</div>
+            <div class="fleet-tagset">
+              <span class="fleet-tag">8-Sitzer</span>
+              <span class="fleet-tag">9-Sitzer</span>
+            </div>
+          </div>
+          <div class="fleet-specs">
+            <div class="price">75 € <sup>/ Tag ab 7 Tg.</sup></div>
+            <ul>
+              <li>24 Std.: 99 €</li>
+              <li>Ab 3 Tagen: 85 € / Tag</li>
+              <li>200 Freikilometer inklusive</li>
+            </ul>
+          </div>
+          <a class="btn-line-dark" target="_blank" rel="noopener"
+             href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%208%2F9-Sitzer%20Bus.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Bus anfragen</a>
         </div>
-        <a class="btn-line-dark" target="_blank" rel="noopener"
-           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%205-Sitzer%20Kombi.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Kombi anfragen</a>
+        <details class="fleet-detail">
+          <summary>Details &amp; technische Daten</summary>
+          <div class="fleet-detail-body">
+            <div class="detail-photos">
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+            </div>
+            <table class="spec-table">
+              <tr><td>Sitzplätze</td><td>8 oder 9</td></tr>
+              <tr><td>Ladevolumen</td><td>Daten folgen</td></tr>
+              <tr><td>Getriebe</td><td>Daten folgen</td></tr>
+              <tr><td>Führerschein</td><td>Klasse B</td></tr>
+            </table>
+            <p class="detail-note">Fotos und genaue technische Daten folgen in Kürze.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="fleet-item reveal" id="sprinter">
+        <div class="fleet-row">
+          <div class="fleet-num">03</div>
+          <div class="fleet-main">
+            <h3>Transporter</h3>
+            <div class="sub">Sprinter-Klasse</div>
+            <div class="fleet-tagset">
+              <span class="fleet-tag">Sprinter Kasten</span>
+            </div>
+          </div>
+          <div class="fleet-specs">
+            <div class="price">75 € <sup>/ Tag</sup></div>
+            <ul>
+              <li>Ideal für Umzüge</li>
+              <li>Gewerbliche Transporte</li>
+              <li>Individuelle KM-Preise</li>
+            </ul>
+          </div>
+          <a class="btn-line-dark" target="_blank" rel="noopener"
+             href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Sprinter%20Kasten.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Transporter anfragen</a>
+        </div>
+        <details class="fleet-detail">
+          <summary>Details &amp; technische Daten</summary>
+          <div class="fleet-detail-body">
+            <div class="detail-photos">
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+            </div>
+            <table class="spec-table">
+              <tr><td>Laderaum</td><td>Daten folgen</td></tr>
+              <tr><td>Nutzlast</td><td>Daten folgen</td></tr>
+              <tr><td>Innenhöhe</td><td>Daten folgen</td></tr>
+              <tr><td>Führerschein</td><td>Klasse B</td></tr>
+            </table>
+            <p class="detail-note">Fotos und genaue technische Daten folgen in Kürze.</p>
+          </div>
+        </details>
+      </article>
+
+      <div class="fleet-group-head reveal" id="anhaenger">
+        <div class="eyebrow">04 · Anhänger &amp; Trailer</div>
+        <p>Für jede Zuladung das passende Modell — einzeln anfragbar.</p>
       </div>
 
-      <div class="fleet-row reveal">
-        <div class="fleet-num">02</div>
-        <div class="fleet-main">
-          <h3>8- &amp; 9-Sitzer Bus</h3>
-          <div class="sub">VW T5 / T6 — Topseller</div>
-          <div class="fleet-tagset">
-            <span class="fleet-tag">8-Sitzer</span>
-            <span class="fleet-tag">9-Sitzer</span>
+      <article class="fleet-item reveal" id="planenanhaenger">
+        <div class="fleet-row">
+          <div class="fleet-num">04.1</div>
+          <div class="fleet-main">
+            <h3>Planenanhänger</h3>
+            <div class="sub">Für Umzüge, Sperrgut &amp; Baumaterial</div>
           </div>
+          <div class="fleet-specs">
+            <div class="price">30 € <sup>/ 24 Std.</sup></div>
+            <ul>
+              <li>Spanngurte inklusive</li>
+              <li>Wetterschutz durch Plane</li>
+            </ul>
+          </div>
+          <a class="btn-line-dark" target="_blank" rel="noopener"
+             href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Planenanh%C3%A4nger.%0A%0A-%20Zeitraum%3A">Anfragen</a>
         </div>
-        <div class="fleet-specs">
-          <div class="price">75 € <sup>/ Tag ab 7 Tg.</sup></div>
-          <ul>
-            <li>24 Std.: 99 €</li>
-            <li>Ab 3 Tagen: 85 € / Tag</li>
-            <li>200 Freikilometer inklusive</li>
-          </ul>
-        </div>
-        <a class="btn-line-dark" target="_blank" rel="noopener"
-           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%208%2F9-Sitzer%20Bus.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Bus anfragen</a>
-      </div>
+        <details class="fleet-detail">
+          <summary>Details, Maße &amp; Gewicht</summary>
+          <div class="fleet-detail-body">
+            <div class="detail-photos">
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+            </div>
+            <table class="spec-table">
+              <tr><td>Ladefläche (L×B)</td><td>Daten folgen</td></tr>
+              <tr><td>Zulässiges Gesamtgewicht</td><td>Daten folgen</td></tr>
+              <tr><td>Nutzlast</td><td>Daten folgen</td></tr>
+              <tr><td>Stützlast</td><td>Daten folgen</td></tr>
+            </table>
+            <p class="detail-note">Fotos, Maße und Gewichte folgen in Kürze.</p>
+          </div>
+        </details>
+      </article>
 
-      <div class="fleet-row reveal">
-        <div class="fleet-num">03</div>
-        <div class="fleet-main">
-          <h3>Transporter</h3>
-          <div class="sub">Sprinter-Klasse</div>
-          <div class="fleet-tagset">
-            <span class="fleet-tag">Sprinter Kasten</span>
+      <article class="fleet-item reveal" id="motorradanhaenger">
+        <div class="fleet-row">
+          <div class="fleet-num">04.2</div>
+          <div class="fleet-main">
+            <h3>Motorradanhänger</h3>
+            <div class="sub">Sicherer Transport für ein oder mehrere Motorräder</div>
           </div>
+          <div class="fleet-specs">
+            <div class="price">Preis <sup>auf Anfrage</sup></div>
+            <ul>
+              <li>Spannschienen inklusive</li>
+            </ul>
+            <div class="price-note">* Preis wird bald ergänzt.</div>
+          </div>
+          <a class="btn-line-dark" target="_blank" rel="noopener"
+             href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Motorradanh%C3%A4nger.%0A%0A-%20Zeitraum%3A">Anfragen</a>
         </div>
-        <div class="fleet-specs">
-          <div class="price">75 € <sup>/ Tag</sup></div>
-          <ul>
-            <li>Ideal für Umzüge</li>
-            <li>Gewerbliche Transporte</li>
-            <li>Individuelle KM-Preise</li>
-          </ul>
-        </div>
-        <a class="btn-line-dark" target="_blank" rel="noopener"
-           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Sprinter%20Kasten.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Transporter anfragen</a>
-      </div>
+        <details class="fleet-detail">
+          <summary>Details, Maße &amp; Gewicht</summary>
+          <div class="fleet-detail-body">
+            <div class="detail-photos">
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+            </div>
+            <table class="spec-table">
+              <tr><td>Ladefläche (L×B)</td><td>Daten folgen</td></tr>
+              <tr><td>Zulässiges Gesamtgewicht</td><td>Daten folgen</td></tr>
+              <tr><td>Anzahl Motorräder</td><td>Daten folgen</td></tr>
+              <tr><td>Stützlast</td><td>Daten folgen</td></tr>
+            </table>
+            <p class="detail-note">Fotos, Maße und Gewichte folgen in Kürze.</p>
+          </div>
+        </details>
+      </article>
 
-      <div class="fleet-row reveal">
-        <div class="fleet-num">04</div>
-        <div class="fleet-main">
-          <h3>Anhänger &amp; Trailer</h3>
-          <div class="sub">Für jede Zuladung das passende Modell</div>
-          <div class="fleet-tagset">
-            <span class="fleet-tag">Planenanhänger</span>
-            <span class="fleet-tag">Motorradanhänger</span>
-            <span class="fleet-tag">Kipper 3,5 t</span>
-            <span class="fleet-tag">Autotransporter 2,7 t</span>
+      <article class="fleet-item reveal" id="kipper">
+        <div class="fleet-row">
+          <div class="fleet-num">04.3</div>
+          <div class="fleet-main">
+            <h3>Kipper 3,5 t</h3>
+            <div class="sub">Für Erdaushub, Schutt &amp; Grünschnitt</div>
           </div>
+          <div class="fleet-specs">
+            <div class="price">Preis <sup>auf Anfrage</sup></div>
+            <ul>
+              <li>Hydraulische Kippfunktion</li>
+            </ul>
+            <div class="price-note">* Preis wird bald ergänzt.</div>
+          </div>
+          <a class="btn-line-dark" target="_blank" rel="noopener"
+             href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Kipper%203%2C5t.%0A%0A-%20Zeitraum%3A">Anfragen</a>
         </div>
-        <div class="fleet-specs">
-          <div class="price">30 € <sup>/ 24 Std.</sup></div>
-          <ul>
-            <li>Planenanhänger: 30 €</li>
-            <li>Spanngurte inklusive</li>
-          </ul>
-          <div class="fleet-note">* Preise für Motorradanhänger, Kipper 3,5 t und Autotransporter 2,7 t bitte final bestätigen.</div>
+        <details class="fleet-detail">
+          <summary>Details, Maße &amp; Gewicht</summary>
+          <div class="fleet-detail-body">
+            <div class="detail-photos">
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+            </div>
+            <table class="spec-table">
+              <tr><td>Ladefläche (L×B)</td><td>Daten folgen</td></tr>
+              <tr><td>Zulässiges Gesamtgewicht</td><td>3,5 t</td></tr>
+              <tr><td>Nutzlast</td><td>Daten folgen</td></tr>
+              <tr><td>Kipprichtung</td><td>Daten folgen</td></tr>
+            </table>
+            <p class="detail-note">Fotos und genaue Maße folgen in Kürze.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="fleet-item reveal" id="autotransporter">
+        <div class="fleet-row">
+          <div class="fleet-num">04.4</div>
+          <div class="fleet-main">
+            <h3>Autotransporter 2,7 t</h3>
+            <div class="sub">Für den Transport eines Fahrzeugs</div>
+          </div>
+          <div class="fleet-specs">
+            <div class="price">Preis <sup>auf Anfrage</sup></div>
+            <ul>
+              <li>Spanngurte inklusive</li>
+            </ul>
+            <div class="price-note">* Preis wird bald ergänzt.</div>
+          </div>
+          <a class="btn-line-dark" target="_blank" rel="noopener"
+             href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Autotransporter%202%2C7t.%0A%0A-%20Zeitraum%3A">Anfragen</a>
         </div>
-        <a class="btn-line-dark" target="_blank" rel="noopener"
-           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Anh%C3%A4nger.%0A%0A-%20Typ%3A%20(Planenanh%C3%A4nger%20%2F%20Motorradanh%C3%A4nger%20%2F%20Kipper%203%2C5t%20%2F%20Autotransporter%202%2C7t)%0A-%20Zeitraum%3A">Anhänger anfragen</a>
-      </div>
+        <details class="fleet-detail">
+          <summary>Details, Maße &amp; Gewicht</summary>
+          <div class="fleet-detail-body">
+            <div class="detail-photos">
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+              <div class="photo-slot">Foto folgt</div>
+            </div>
+            <table class="spec-table">
+              <tr><td>Ladefläche (L×B)</td><td>Daten folgen</td></tr>
+              <tr><td>Zulässiges Gesamtgewicht</td><td>2,7 t</td></tr>
+              <tr><td>Nutzlast</td><td>Daten folgen</td></tr>
+              <tr><td>Stützlast</td><td>Daten folgen</td></tr>
+            </table>
+            <p class="detail-note">Fotos und genaue Maße folgen in Kürze.</p>
+          </div>
+        </details>
+      </article>
 
     </div>
   </div>
@@ -774,22 +1005,48 @@
       <span class="mono" style="font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); border:1px solid var(--line); padding:5px 12px; border-radius:20px;">optional · auf Anfrage</span>
     </div>
     <div class="tools-list reveal">
-      <div class="tools-item">
-        <h4>Bau &amp; Erdbau</h4>
-        <p>Rüttelplatten, Stemmhämmer und weiteres schweres Gerät.</p>
-      </div>
-      <div class="tools-item">
-        <h4>Garten &amp; Forst</h4>
-        <p>Heckenscheren, Freischneider, Rasenmäher.</p>
-      </div>
-      <div class="tools-item">
-        <h4>Holz &amp; Montage</h4>
-        <p>Sägen, Hobel, Magazinschrauber für Profis.</p>
-      </div>
-      <div class="tools-item">
-        <h4>Event &amp; Haus</h4>
-        <p>Partyzelt 12×6 m und Reinigungsgeräte.</p>
-      </div>
+      <details class="tools-item" id="werkzeug-bau">
+        <summary>
+          <h4>Bau &amp; Erdbau</h4>
+          <p>Rüttelplatten, Stemmhämmer und weiteres schweres Gerät.</p>
+        </summary>
+        <ul class="tools-sub">
+          <li><span>Rüttelplatte</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20R%C3%BCttelplatte.">Anfragen →</a></li>
+          <li><span>Stemmhammer</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Stemmhammer.">Anfragen →</a></li>
+        </ul>
+      </details>
+      <details class="tools-item" id="werkzeug-garten">
+        <summary>
+          <h4>Garten &amp; Forst</h4>
+          <p>Heckenscheren, Freischneider, Rasenmäher.</p>
+        </summary>
+        <ul class="tools-sub">
+          <li><span>Heckenschere</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Heckenschere.">Anfragen →</a></li>
+          <li><span>Freischneider</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Freischneider.">Anfragen →</a></li>
+          <li><span>Rasenmäher</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Rasenm%C3%A4her.">Anfragen →</a></li>
+        </ul>
+      </details>
+      <details class="tools-item" id="werkzeug-holz">
+        <summary>
+          <h4>Holz &amp; Montage</h4>
+          <p>Sägen, Hobel, Magazinschrauber für Profis.</p>
+        </summary>
+        <ul class="tools-sub">
+          <li><span>Säge</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20S%C3%A4ge.">Anfragen →</a></li>
+          <li><span>Hobel</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Hobel.">Anfragen →</a></li>
+          <li><span>Magazinschrauber</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Magazinschrauber.">Anfragen →</a></li>
+        </ul>
+      </details>
+      <details class="tools-item" id="werkzeug-event">
+        <summary>
+          <h4>Event &amp; Haus</h4>
+          <p>Partyzelt 12×6 m und Reinigungsgeräte.</p>
+        </summary>
+        <ul class="tools-sub">
+          <li><span>Partyzelt 12×6 m</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20das%20Partyzelt%2012x6m.">Anfragen →</a></li>
+          <li><span>Reinigungsgeräte</span><a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Reinigungsger%C3%A4te.">Anfragen →</a></li>
+        </ul>
+      </details>
     </div>
     <p class="tools-cta">Verfügbarkeit und Preise auf Anfrage — <a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Werkzeug%2FEquipment.%20Um%20welches%20Ger%C3%A4t%20geht%20es%3A%20">einfach per WhatsApp fragen →</a></p>
   </div>
@@ -830,22 +1087,23 @@
         <p class="foot-desc">Seit 2019 — unkomplizierte Fahrzeug- und Anhängervermietung in Reinheim. Angefragt per WhatsApp, beantwortet in unter zwei Stunden.</p>
         <div class="foot-addr">
           Michael Riemer<br>
-          Roßbergring 76, 64354 Reinheim
+          Roßbergring 76, 64354 Reinheim<br>
+          <a href="https://www.google.com/maps/search/?api=1&query=Ro%C3%9Fbergring+76%2C+64354+Reinheim" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline; display:inline-block; margin-top:6px;">In Google Maps öffnen →</a>
         </div>
       </div>
       <div class="foot-col">
         <h5>Fuhrpark</h5>
-        <a href="#flotte">5-Sitzer Kombi</a>
-        <a href="#flotte">8/9-Sitzer Bus</a>
-        <a href="#flotte">Sprinter Kasten</a>
-        <a href="#flotte">Anhänger &amp; Trailer</a>
+        <a href="#kombi">5-Sitzer Kombi</a>
+        <a href="#bus">8/9-Sitzer Bus</a>
+        <a href="#sprinter">Sprinter Kasten</a>
+        <a href="#anhaenger">Anhänger &amp; Trailer</a>
       </div>
       <div class="foot-col">
         <h5>Werkzeug</h5>
-        <a href="#werkzeug">Bau &amp; Erdbau</a>
-        <a href="#werkzeug">Garten &amp; Forst</a>
-        <a href="#werkzeug">Holz &amp; Montage</a>
-        <a href="#werkzeug">Event &amp; Haus</a>
+        <a href="#werkzeug-bau">Bau &amp; Erdbau</a>
+        <a href="#werkzeug-garten">Garten &amp; Forst</a>
+        <a href="#werkzeug-holz">Holz &amp; Montage</a>
+        <a href="#werkzeug-event">Event &amp; Haus</a>
       </div>
       <div class="foot-col">
         <h5>Kontakt</h5>
@@ -856,7 +1114,10 @@
     </div>
     <div class="foot-bottom">
       <span>© 2026 Einzelunternehmen KFZ- und Anhänger Verleih Riemer</span>
-      <span>Wir bewegen, was Sie planen.</span>
+      <span style="display:flex; gap:18px;">
+        <a href="impressum.html" style="color:inherit;">Impressum</a>
+        <a href="datenschutz.html" style="color:inherit;">Datenschutz</a>
+      </span>
     </div>
   </div>
 </footer>
