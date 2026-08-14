@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KFZ &amp; Anhänger Verleih Riemer — Reinheim</title>
+<meta name="description" content="Fahrzeuge und Anhänger unkompliziert mieten in Reinheim. Anfrage direkt per WhatsApp – Antwort in unter 2 Stunden.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161513;
+    --ink-soft:#4a4742;
+    --paper:#faf9f6;
+    --line:rgba(22,21,19,0.12);
+    --line-soft:rgba(22,21,19,0.08);
+    --accent:#c9911a;
+    --accent-deep:#9c700f;
+    --night:#141312;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  h1,h2,h3{ margin:0; font-weight:700; letter-spacing:-0.01em; }
+  .accent{ color:var(--accent); }
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    padding:22px 0;
+    transition:background .3s ease, padding .3s ease, border-color .3s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(250,249,246,0.92);
+    backdrop-filter:blur(10px);
+    padding:14px 0;
+    border-color:var(--line);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; }
+  .brand{
+    font-size:19px; font-weight:800; letter-spacing:-0.01em;
+    text-decoration:none; color:var(--paper);
+    transition:color .3s ease;
+  }
+  header.scrolled .brand{ color:var(--ink); }
+  .brand b{ color:var(--accent); font-weight:800; }
+  .nav-links{ display:flex; gap:34px; align-items:center; font-size:14px; font-weight:500; }
+  .nav-links a{
+    text-decoration:none; color:var(--paper); opacity:0.85; transition:opacity .2s ease, color .3s ease;
+  }
+  header.scrolled .nav-links a{ color:var(--ink); }
+  .nav-links a:hover{ opacity:1; }
+  .btn-nav-wa{
+    border:1px solid var(--paper); color:var(--paper);
+    padding:9px 18px; border-radius:2px;
+    font-size:13.5px; font-weight:600; text-decoration:none;
+    transition:background .2s ease, color .3s ease, border-color .3s ease;
+  }
+  header.scrolled .btn-nav-wa{ border-color:var(--ink); color:var(--ink); }
+  .btn-nav-wa:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .menu-toggle{ display:none; background:none; border:none; cursor:pointer; color:var(--paper); padding:8px; margin:-8px; }
+  header.scrolled .menu-toggle{ color:var(--ink); }
+
+  .mobile-menu{
+    display:none;
+    flex-direction:column;
+    background:var(--paper);
+    border-top:1px solid var(--line);
+    padding:8px 32px 20px;
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{
+    color:var(--ink);
+    text-decoration:none;
+    font-size:17px;
+    font-weight:600;
+    padding:15px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .mobile-menu-wa{
+    margin-top:14px !important;
+    background:var(--ink); color:var(--paper) !important;
+    text-align:center; border-radius:2px; border-bottom:none !important;
+    padding:14px 0 !important;
+  }
+
+  /* touch: remove tap flash, ensure comfortable targets */
+  a, button{ -webkit-tap-highlight-color:transparent; }
+  .tag-pill, .btn-line-dark, .btn-solid, .btn-ghost, .btn-nav-wa{ min-height:44px; display:inline-flex; align-items:center; justify-content:center; }
+
+  /* ---------- hero: full-bleed ---------- */
+  .hero{
+    position:relative;
+    height:92vh; min-height:560px;
+    display:flex; align-items:flex-end;
+    overflow:hidden;
+    background:#171512;
+  }
+  .hero-photo{
+    position:absolute; inset:-6%;
+    background-image:
+      linear-gradient(180deg, rgba(15,14,13,0.55) 0%, rgba(15,14,13,0.72) 60%, rgba(15,14,13,0.92) 100%),
+      url('https://images.pexels.com/photos/3674373/pexels-photo-3674373.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size:cover;
+    background-position:center;
+    will-change:transform;
+  }
+  .placeholder-tag{
+    position:absolute; top:16px; right:16px; z-index:3;
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.06em;
+    background:rgba(20,19,18,0.55); color:rgba(250,249,246,0.75);
+    padding:5px 10px; border-radius:20px; border:1px solid rgba(250,249,246,0.2);
+    backdrop-filter:blur(4px);
+  }
+  .hero-inner{ position:relative; z-index:2; width:100%; padding-bottom:76px; }
+  .hero-eyebrow{ color:rgba(250,249,246,0.65); }
+  .hero h1{
+    color:var(--paper);
+    font-size:clamp(42px, 7vw, 92px);
+    line-height:0.98;
+    margin-top:16px;
+    max-width:14ch;
+  }
+  .hero p.lede{
+    color:rgba(250,249,246,0.78);
+    font-size:18px;
+    max-width:44ch;
+    margin-top:20px;
+    font-weight:400;
+  }
+  .hero-cta{ margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn-solid{
+    background:var(--paper); color:var(--ink);
+    padding:15px 26px; border-radius:2px;
+    font-size:14.5px; font-weight:600; letter-spacing:0.01em;
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .btn-solid:hover{ background:var(--accent); color:var(--ink); transform:translateY(-1px); }
+  .btn-ghost{
+    color:var(--paper); border-bottom:1px solid rgba(250,249,246,0.5);
+    padding:15px 2px; font-size:14.5px; font-weight:500; text-decoration:none;
+    transition:border-color .2s ease;
+  }
+  .btn-ghost:hover{ border-color:var(--paper); }
+
+  .scroll-cue{
+    position:absolute; right:32px; bottom:36px; z-index:2;
+    display:flex; align-items:center; gap:10px;
+    color:rgba(250,249,246,0.55);
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+  .scroll-cue .line{ width:1px; height:34px; background:rgba(250,249,246,0.35); position:relative; overflow:hidden; }
+  .scroll-cue .line::after{
+    content:""; position:absolute; top:-34px; left:0; width:100%; height:34px;
+    background:var(--accent);
+    animation:cueDrop 1.8s ease-in-out infinite;
+  }
+  @keyframes cueDrop{ 0%{ transform:translateY(0);} 100%{ transform:translateY(68px);} }
+
+  /* ---------- reveal ---------- */
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  /* ---------- section rhythm ---------- */
+  .section{ padding:110px 0; }
+  .section-tight{ padding:70px 0; }
+  .section-head{ max-width:70ch; }
+  .section-head h2{ font-size:clamp(30px,3.6vw,46px); margin-top:14px; line-height:1.08; }
+
+  /* ---------- intro statement ---------- */
+  .intro-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:start; }
+  .intro-grid p{ font-size:17px; color:var(--ink-soft); max-width:52ch; }
+  .intro-links{ margin-top:26px; display:flex; gap:28px; flex-wrap:wrap; }
+  .intro-links a{ font-size:14.5px; font-weight:600; text-decoration:none; border-bottom:1.5px solid var(--accent); padding-bottom:3px; }
+
+  /* ---------- two-col about band ---------- */
+  .about-band{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; }
+  .about-col{ padding:70px 48px; }
+  .about-col:first-child{ border-right:1px solid var(--line); }
+  .about-col h3{ font-size:23px; line-height:1.2; max-width:16ch; }
+  .about-col p{ margin-top:16px; color:var(--ink-soft); font-size:15.5px; max-width:44ch; }
+
+  /* ---------- tag row (leistungen-style) ---------- */
+  .tag-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .tag-pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.05em; text-transform:uppercase;
+    border:1px solid var(--line); color:var(--ink);
+    padding:10px 16px; border-radius:2px;
+    text-decoration:none;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .tag-pill:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
+  /* ---------- fleet: editorial list ---------- */
+  .fleet-list{ border-top:1px solid var(--line); }
+  .fleet-row{
+    display:grid;
+    grid-template-columns:64px 1.6fr 1.1fr auto;
+    gap:32px;
+    align-items:start;
+    padding:38px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .fleet-num{ font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--accent); padding-top:4px; }
+  .fleet-main h3{ font-size:25px; font-weight:700; }
+  .fleet-main .sub{ font-size:14px; color:var(--ink-soft); margin-top:4px; }
+  .fleet-tagset{ display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+  .fleet-tag{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--ink-soft); border:1px solid var(--line); padding:4px 10px; border-radius:20px;
+  }
+  .fleet-specs{ font-size:14px; color:var(--ink-soft); }
+  .fleet-specs .price{ font-size:24px; font-weight:700; color:var(--ink); font-family:'Inter'; }
+  .fleet-specs .price sup{ font-size:12px; font-weight:500; opacity:0.6; }
+  .fleet-specs ul{ margin:8px 0 0; padding:0; list-style:none; }
+  .fleet-specs li{ padding:2px 0; }
+  .fleet-specs li::before{ content:"— "; opacity:0.45; }
+  .fleet-note{ font-size:11.5px; color:var(--ink-soft); opacity:0.75; margin-top:6px; max-width:34ch; }
+  .btn-line-dark{
+    border:1px solid var(--ink); color:var(--ink);
+    padding:12px 20px; border-radius:2px;
+    font-size:13.5px; font-weight:600; text-decoration:none;
+    white-space:nowrap;
+    transition:background .2s ease, color .2s ease;
+  }
+  .btn-line-dark:hover{ background:var(--ink); color:var(--paper); }
+
+  /* ---------- process: numbered vertical ---------- */
+  .process-band{ background:var(--night); color:var(--paper); }
+  .process-band .eyebrow{ color:rgba(250,249,246,0.55); }
+  .process-list{ margin-top:10px; }
+  .process-row{
+    display:grid; grid-template-columns:100px 1fr;
+    gap:28px;
+    padding:34px 0;
+    border-bottom:1px solid rgba(250,249,246,0.14);
+  }
+  .process-row:first-child{ border-top:1px solid rgba(250,249,246,0.14); }
+  .process-row .big-num{ font-size:44px; font-weight:800; color:rgba(250,249,246,0.25); line-height:1; }
+  .process-row h3{ color:var(--paper); font-size:21px; }
+  .process-row p{ color:rgba(250,249,246,0.68); margin-top:8px; font-size:15px; max-width:56ch; }
+
+  /* ---------- quote / cta band ---------- */
+  .quote-band{
+    background:var(--paper);
+    padding:110px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .quote-grid{ display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end; }
+  blockquote{
+    margin:0; font-size:clamp(24px,3vw,34px); font-weight:600; line-height:1.28;
+    max-width:22ch; letter-spacing:-0.01em;
+  }
+  .quote-attrib{ margin-top:22px; font-size:14px; color:var(--ink-soft); }
+
+  /* ---------- tools: quiet ---------- */
+  .tools-band{ background:#f1efe9; }
+  .tools-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px; }
+  .tools-list{ margin-top:30px; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .tools-item{ background:#f1efe9; padding:22px; }
+  .tools-item h4{ font-size:15px; font-weight:700; }
+  .tools-item p{ margin:8px 0 0; font-size:13.5px; color:var(--ink-soft); }
+  .tools-cta{ margin-top:24px; font-size:14px; }
+  .tools-cta a{ color:var(--accent-deep); font-weight:600; text-decoration:underline; }
+
+  /* ---------- faq ---------- */
+  details{ border-bottom:1px solid var(--line); padding:20px 0; }
+  summary{
+    cursor:pointer; font-size:17px; font-weight:600;
+    list-style:none; display:flex; justify-content:space-between; align-items:center;
+  }
+  summary::-webkit-details-marker{ display:none; }
+  summary::after{ content:"+"; font-family:'IBM Plex Mono',monospace; font-size:20px; color:var(--accent); }
+  details[open] summary::after{ content:"–"; }
+  details p{ margin:14px 0 0; font-size:15px; color:var(--ink-soft); max-width:64ch; }
+
+  /* ---------- footer ---------- */
+  footer{ background:var(--night); color:var(--paper); padding:80px 0 0; }
+  .foot-top{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:60px; border-bottom:1px solid rgba(250,249,246,0.12); }
+  .foot-brand{ font-size:20px; font-weight:800; }
+  .foot-brand b{ color:var(--accent); }
+  .foot-desc{ margin-top:14px; font-size:14px; color:rgba(250,249,246,0.62); max-width:32ch; }
+  .foot-addr{ margin-top:18px; font-size:13.5px; color:rgba(250,249,246,0.62); line-height:1.7; }
+  .foot-col h5{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(250,249,246,0.5); margin:0 0 16px; }
+  .foot-col a{ display:block; font-size:14.5px; color:rgba(250,249,246,0.82); text-decoration:none; margin-bottom:11px; }
+  .foot-col a:hover{ color:var(--paper); }
+  .foot-bottom{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding:22px 0; font-size:12.5px; color:rgba(250,249,246,0.4); }
+
+  /* ---------- floating whatsapp ---------- */
+  .float-wa{
+    position:fixed; bottom:26px; right:26px; z-index:60;
+    background:var(--ink); color:var(--paper);
+    width:54px; height:54px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    text-decoration:none;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .float-wa:hover{ background:var(--accent); transform:translateY(-2px); }
+  .float-wa svg{ width:24px; height:24px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px){
+    .intro-grid{ grid-template-columns:1fr; gap:26px; }
+    .about-grid{ grid-template-columns:1fr; }
+    .about-col:first-child{ border-right:none; border-bottom:1px solid var(--line); }
+    .fleet-row{ grid-template-columns:40px 1fr; grid-template-areas:"num main" "num specs" "num cta"; row-gap:14px; }
+    .fleet-num{ grid-area:num; }
+    .fleet-main{ grid-area:main; }
+    .fleet-specs{ grid-area:specs; }
+    .fleet-row > a{ grid-area:cta; justify-self:start; }
+    .process-row{ grid-template-columns:56px 1fr; }
+    .process-row .big-num{ font-size:30px; }
+    .quote-grid{ grid-template-columns:1fr; }
+    .tools-list{ grid-template-columns:1fr 1fr; }
+    .foot-top{ grid-template-columns:1fr 1fr; row-gap:36px; }
+    .nav-links{ display:none; }
+    .menu-toggle{ display:block; }
+  }
+  /* ---------- google reviews ---------- */
+  .reviews-band{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .reviews-head{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px; }
+  .rating-summary{ display:flex; align-items:center; gap:14px; }
+  .rating-score{ font-size:40px; font-weight:800; line-height:1; }
+  .rating-stars{ color:var(--accent); font-size:17px; letter-spacing:2px; }
+  .rating-meta{ font-size:13px; color:var(--ink-soft); margin-top:4px; }
+  .google-badge{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink-soft); }
+  .google-badge svg{ width:16px; height:16px; }
+  .reviews-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:36px; }
+  .review-card{ background:var(--paper); padding:26px; }
+  .review-stars{ color:var(--accent); font-size:14px; letter-spacing:2px; }
+  .review-text{ margin-top:12px; font-size:14.5px; color:var(--ink-soft); line-height:1.55; }
+  .review-author{ margin-top:16px; font-size:13px; font-weight:600; color:var(--ink); }
+
+  /* ---------- photo strip ---------- */
+  .photo-strip{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:16px; margin-top:56px; }
+  .photo-strip figure{ margin:0; position:relative; border-radius:2px; overflow:hidden; background:#e5e1d6; }
+  .photo-strip img{ width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:4/3; }
+  .photo-strip .tall{ aspect-ratio:auto; }
+  .photo-strip .tall img{ aspect-ratio:3/4; }
+  .photo-cap{
+    position:absolute; bottom:0; left:0; right:0;
+    background:linear-gradient(0deg, rgba(0,0,0,0.55), transparent);
+    color:#fff; font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.05em;
+    padding:20px 12px 8px;
+  }
+
+  /* ---------- quote image ---------- */
+  .quote-photo{ border-radius:2px; overflow:hidden; position:relative; }
+  .quote-photo img{ width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:4/5; }
+
+  @media (max-width: 900px){
+    .reviews-grid{ grid-template-columns:1fr; }
+    .photo-strip{ grid-template-columns:1fr 1fr; }
+    .photo-strip .tall{ grid-column:span 2; }
+  }
+  @media (max-width: 520px){
+    .wrap{ padding:0 20px; }
+    .tools-list{ grid-template-columns:1fr; }
+    .foot-top{ grid-template-columns:1fr; }
+    .section{ padding:64px 0; }
+    .section-tight{ padding:50px 0; }
+
+    /* header */
+    header{ padding:16px 0; }
+    header.scrolled{ padding:12px 0; }
+    .btn-nav-wa{ display:none; }
+    .mobile-menu{ padding:8px 20px 24px; }
+
+    /* hero */
+    .hero{ height:100svh; min-height:520px; }
+    .hero h1{ font-size:clamp(36px, 11vw, 48px); max-width:none; }
+    .hero p.lede{ font-size:16px; max-width:none; }
+    .hero-cta{ flex-direction:column; align-items:stretch; gap:12px; }
+    .btn-solid, .btn-ghost{ width:100%; text-align:center; justify-content:center; }
+    .btn-ghost{ border:1px solid rgba(250,249,246,0.4); border-radius:2px; }
+    .scroll-cue{ display:none; }
+
+    /* intro / photo strip */
+    .intro-links{ flex-direction:column; gap:14px; }
+    .photo-strip{ grid-template-columns:1fr; margin-top:32px; gap:10px; }
+    .photo-strip .tall{ grid-column:auto; }
+    .photo-strip figure, .photo-strip .tall{ aspect-ratio:4/3; }
+    .photo-strip img, .photo-strip .tall img{ aspect-ratio:4/3; }
+
+    /* about band */
+    .about-col{ padding:40px 20px; }
+
+    /* tag row: horizontal scroll instead of wrap-cramming */
+    .tag-row{ flex-wrap:nowrap; overflow-x:auto; padding-bottom:6px; margin:0 -20px; padding-left:20px; padding-right:20px; -webkit-overflow-scrolling:touch; }
+    .tag-pill{ flex:0 0 auto; }
+
+    /* fleet rows */
+    .fleet-row{ padding:28px 0; row-gap:12px; }
+    .fleet-main h3{ font-size:21px; }
+    .fleet-specs .price{ font-size:21px; }
+    .btn-line-dark{ width:100%; text-align:center; }
+
+    /* process */
+    .process-row{ grid-template-columns:44px 1fr; gap:16px; padding:24px 0; }
+    .process-row .big-num{ font-size:24px; }
+    .process-row h3{ font-size:18px; }
+
+    /* quote */
+    .quote-band{ padding:64px 0; }
+    blockquote{ font-size:24px; max-width:none; }
+    .quote-grid{ gap:24px; }
+    .quote-photo{ order:-1; }
+    .quote-photo img{ aspect-ratio:16/10; }
+
+    /* reviews */
+    .reviews-head{ flex-direction:column; align-items:flex-start; gap:16px; }
+
+    /* faq */
+    summary{ font-size:15.5px; }
+
+    /* footer */
+    .foot-top{ padding-bottom:40px; gap:32px; }
+
+    /* floating whatsapp: keep clear of thumb-edge, respect safe area */
+    .float-wa{
+      width:52px; height:52px;
+      right:16px;
+      bottom:calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  @media (max-width: 380px){
+    .hero h1{ font-size:34px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .scroll-cue .line::after{ animation:none; }
+    .hero-photo{ transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap nav">
+    <a href="#top" class="brand">Riemer<b>.</b></a>
+    <nav class="nav-links">
+      <a href="#flotte">Flotte</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#werkzeug">Werkzeug</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn-nav-wa" target="_blank" rel="noopener"
+       href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20habe%20Interesse%20an%20einer%20Anmietung.%20Bitte%20um%20kurzes%20Angebot.%0A%0A-%20Name%3A%20%0A-%20Gew%C3%BCnschter%20Zeitraum%3A%20%0A-%20Zielort%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">
+      WhatsApp
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü öffnen" aria-expanded="false">
+      <svg id="menuIconOpen" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="menuIconClose" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#flotte">Flotte</a>
+    <a href="#ablauf">Ablauf</a>
+    <a href="#werkzeug">Werkzeug</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontakt">Kontakt</a>
+    <a class="mobile-menu-wa" target="_blank" rel="noopener"
+       href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20habe%20Interesse%20an%20einer%20Anmietung.%20Bitte%20um%20kurzes%20Angebot.%0A%0A-%20Name%3A%20%0A-%20Gew%C3%BCnschter%20Zeitraum%3A%20%0A-%20Zielort%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">
+      Per WhatsApp anfragen
+    </a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-photo" id="heroBg"></div>
+  <span class="placeholder-tag">Beispielbild</span>
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow eyebrow">Reinheim · seit 2019</div>
+    <h1>Ihre Mobilität<br>für Ihr <span class="accent">Projekt.</span></h1>
+    <p class="lede">Kombi, Bus, Transporter und Anhänger — unkompliziert gebucht, ohne Wartezeit am Telefon.</p>
+    <div class="hero-cta">
+      <a class="btn-solid" target="_blank" rel="noopener"
+         href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20habe%20Interesse%20an%20einer%20Anmietung.%20Bitte%20um%20kurzes%20Angebot.%0A%0A-%20Name%3A%20%0A-%20Gew%C3%BCnschter%20Zeitraum%3A%20%0A-%20Zielort%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">
+        Angebot per WhatsApp
+      </a>
+      <a class="btn-ghost" href="#flotte">Flotte ansehen</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="line"></div>Scrollen</div>
+</section>
+
+<section class="section-tight" id="intro">
+  <div class="wrap intro-grid reveal">
+    <div>
+      <div class="eyebrow">Seit 2019</div>
+      <h2 style="font-size:clamp(26px,3vw,36px); margin-top:14px; line-height:1.1;">Wo Ihr Projekt losfährt.</h2>
+    </div>
+    <div>
+      <p>Seit 2019 stehen wir für unkomplizierte Vermietung in Reinheim. Vom Kombi über den 9-Sitzer Bus bis zum Anhänger — jedes Fahrzeug ist gepflegt, einsatzbereit und schnell verfügbar. Angefragt wird per WhatsApp, beantwortet innerhalb von zwei Stunden.</p>
+      <div class="intro-links">
+        <a href="#flotte">Fahrzeuge &amp; Anhänger</a>
+        <a href="#werkzeug">Werkzeug &amp; Equipment</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap reveal">
+    <div class="photo-strip">
+      <figure class="tall">
+        <img src="https://images.pexels.com/photos/6169577/pexels-photo-6169577.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Transporter, Beispielbild" loading="lazy">
+        <span class="photo-cap">Beispielbild — Transporter</span>
+      </figure>
+      <figure>
+        <img src="https://images.pexels.com/photos/29217852/pexels-photo-29217852.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Schlüsselübergabe, Beispielbild" loading="lazy">
+        <span class="photo-cap">Beispielbild — Übergabe</span>
+      </figure>
+      <figure>
+        <img src="https://images.pexels.com/photos/3674373/pexels-photo-3674373.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Unterwegs, Beispielbild" loading="lazy">
+        <span class="photo-cap">Beispielbild — Unterwegs</span>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<div class="about-band">
+  <div class="about-grid">
+    <div class="about-col reveal">
+      <h3>Flexibel bei Abholung &amp; Rückgabe.</h3>
+      <p>Termine richten sich nach Ihrem Zeitplan, nicht nach unserem. Kurze Einweisung vor Ort in Reinheim, Kaution hinterlegen, losfahren.</p>
+    </div>
+    <div class="about-col reveal">
+      <h3>Antwort in unter zwei Stunden.</h3>
+      <p>Eine Nachricht per WhatsApp genügt. Kein Warten in der Warteschleife, kein Rückruf-Chaos — die Anfrage kommt direkt bei uns an.</p>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="flotte">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Fuhrpark</div>
+      <h2>Was heute rausfahren kann.</h2>
+    </div>
+
+    <div style="margin-top:36px;" class="reveal">
+      <div class="tag-row">
+        <a class="tag-pill" href="#flotte">Kombi</a>
+        <a class="tag-pill" href="#flotte">8/9-Sitzer Bus</a>
+        <a class="tag-pill" href="#flotte">Sprinter Kasten</a>
+        <a class="tag-pill" href="#flotte">Planenanhänger</a>
+        <a class="tag-pill" href="#flotte">Motorradanhänger</a>
+        <a class="tag-pill" href="#flotte">Kipper 3,5t</a>
+        <a class="tag-pill" href="#flotte">Autotransporter 2,7t</a>
+        <a class="tag-pill" href="#werkzeug">Werkzeug</a>
+      </div>
+    </div>
+
+    <div class="fleet-list" style="margin-top:44px;">
+
+      <div class="fleet-row reveal">
+        <div class="fleet-num">01</div>
+        <div class="fleet-main">
+          <h3>5-Sitzer Kombi</h3>
+          <div class="sub">Pkw für Alltag &amp; Projekt</div>
+          <div class="fleet-tagset">
+            <span class="fleet-tag">Škoda Octavia</span>
+            <span class="fleet-tag">Opel Astra</span>
+          </div>
+        </div>
+        <div class="fleet-specs">
+          <div class="price">50 € <sup>/ Tag</sup></div>
+          <ul>
+            <li>Viel Stauraum</li>
+            <li>Sparsam im Verbrauch</li>
+            <li>Individuelle KM-Pakete</li>
+          </ul>
+        </div>
+        <a class="btn-line-dark" target="_blank" rel="noopener"
+           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%205-Sitzer%20Kombi.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Kombi anfragen</a>
+      </div>
+
+      <div class="fleet-row reveal">
+        <div class="fleet-num">02</div>
+        <div class="fleet-main">
+          <h3>8- &amp; 9-Sitzer Bus</h3>
+          <div class="sub">VW T5 / T6 — Topseller</div>
+          <div class="fleet-tagset">
+            <span class="fleet-tag">8-Sitzer</span>
+            <span class="fleet-tag">9-Sitzer</span>
+          </div>
+        </div>
+        <div class="fleet-specs">
+          <div class="price">75 € <sup>/ Tag ab 7 Tg.</sup></div>
+          <ul>
+            <li>24 Std.: 99 €</li>
+            <li>Ab 3 Tagen: 85 € / Tag</li>
+            <li>200 Freikilometer inklusive</li>
+          </ul>
+        </div>
+        <a class="btn-line-dark" target="_blank" rel="noopener"
+           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%208%2F9-Sitzer%20Bus.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Bus anfragen</a>
+      </div>
+
+      <div class="fleet-row reveal">
+        <div class="fleet-num">03</div>
+        <div class="fleet-main">
+          <h3>Transporter</h3>
+          <div class="sub">Sprinter-Klasse</div>
+          <div class="fleet-tagset">
+            <span class="fleet-tag">Sprinter Kasten</span>
+          </div>
+        </div>
+        <div class="fleet-specs">
+          <div class="price">75 € <sup>/ Tag</sup></div>
+          <ul>
+            <li>Ideal für Umzüge</li>
+            <li>Gewerbliche Transporte</li>
+            <li>Individuelle KM-Preise</li>
+          </ul>
+        </div>
+        <a class="btn-line-dark" target="_blank" rel="noopener"
+           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Sprinter%20Kasten.%0A%0A-%20Zeitraum%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">Transporter anfragen</a>
+      </div>
+
+      <div class="fleet-row reveal">
+        <div class="fleet-num">04</div>
+        <div class="fleet-main">
+          <h3>Anhänger &amp; Trailer</h3>
+          <div class="sub">Für jede Zuladung das passende Modell</div>
+          <div class="fleet-tagset">
+            <span class="fleet-tag">Planenanhänger</span>
+            <span class="fleet-tag">Motorradanhänger</span>
+            <span class="fleet-tag">Kipper 3,5 t</span>
+            <span class="fleet-tag">Autotransporter 2,7 t</span>
+          </div>
+        </div>
+        <div class="fleet-specs">
+          <div class="price">30 € <sup>/ 24 Std.</sup></div>
+          <ul>
+            <li>Planenanhänger: 30 €</li>
+            <li>Spanngurte inklusive</li>
+          </ul>
+          <div class="fleet-note">* Preise für Motorradanhänger, Kipper 3,5 t und Autotransporter 2,7 t bitte final bestätigen.</div>
+        </div>
+        <a class="btn-line-dark" target="_blank" rel="noopener"
+           href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Anh%C3%A4nger.%0A%0A-%20Typ%3A%20(Planenanh%C3%A4nger%20%2F%20Motorradanh%C3%A4nger%20%2F%20Kipper%203%2C5t%20%2F%20Autotransporter%202%2C7t)%0A-%20Zeitraum%3A">Anhänger anfragen</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="process-band" id="ablauf">
+  <div class="wrap section">
+    <div class="section-head reveal">
+      <div class="eyebrow">Ablauf</div>
+      <h2>Drei Schritte, kein Papierkram.</h2>
+    </div>
+    <div class="process-list">
+      <div class="process-row reveal">
+        <div class="big-num">01</div>
+        <div>
+          <h3>Anfrage per WhatsApp</h3>
+          <p>Kurze Nachricht mit Zeitraum und Ziel — wir antworten garantiert innerhalb von zwei Stunden mit einem konkreten Angebot.</p>
+        </div>
+      </div>
+      <div class="process-row reveal">
+        <div class="big-num">02</div>
+        <div>
+          <h3>Individuelle Absprache</h3>
+          <p>Abholung und Rückgabe richten sich nach Ihrem Zeitplan. Wir sind bei den Terminen extrem flexibel.</p>
+        </div>
+      </div>
+      <div class="process-row reveal">
+        <div class="big-num">03</div>
+        <div>
+          <h3>Abholen &amp; losfahren</h3>
+          <p>Kurze Einweisung direkt in Reinheim, Kaution hinterlegen — Ihr Projekt kann ohne Stress starten.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quote-band">
+  <div class="wrap quote-grid reveal">
+    <div>
+      <div class="eyebrow" style="margin-bottom:18px;">Persönlich</div>
+      <blockquote>„Ich kenne jedes Fahrzeug in unserem Fuhrpark persönlich — und genau so beraten wir auch.“</blockquote>
+      <div class="quote-attrib">Michael Riemer, Inhaber</div>
+      <a class="btn-solid" style="background:var(--ink); color:var(--paper); margin-top:26px; display:inline-flex;" target="_blank" rel="noopener"
+         href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20habe%20Interesse%20an%20einer%20Anmietung.%20Bitte%20um%20kurzes%20Angebot.%0A%0A-%20Name%3A%20%0A-%20Gew%C3%BCnschter%20Zeitraum%3A%20%0A-%20Zielort%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">
+        Jetzt anfragen
+      </a>
+    </div>
+    <div class="quote-photo" style="position:relative;">
+      <img src="https://images.pexels.com/photos/29217852/pexels-photo-29217852.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Fahrzeugübergabe, Beispielbild" loading="lazy">
+      <span class="photo-cap" style="position:absolute;">Beispielbild</span>
+    </div>
+  </div>
+</section>
+
+<section class="reviews-band">
+  <div class="wrap section-tight">
+    <div class="reviews-head reveal">
+      <div>
+        <div class="eyebrow">Kundenstimmen</div>
+        <div class="rating-summary" style="margin-top:14px;">
+          <div class="rating-score">5,0</div>
+          <div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-meta">7 Google-Rezensionen</div>
+          </div>
+        </div>
+      </div>
+      <div class="google-badge">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google Bewertungen
+      </div>
+    </div>
+
+    <div class="reviews-grid reveal">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Wir haben heute einen Anhänger bei Herrn Riemer gemietet und waren sehr zufrieden. Er war sehr freundlich und der Ablauf komplett unkompliziert. Können wir nur weiterempfehlen und werden gerne wieder mieten.“</p>
+        <div class="review-author">Google-Rezension</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Sehr freundliches und zuvorkommendes Unternehmen — jeder Wunsch wurde erfüllt, ich war rundum zufrieden mit dem Verleih. Kann ich nur empfehlen! 👍🏼👍🏼“</p>
+        <div class="review-author">Google-Rezension</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">„Sehr freundlich, fair im Preis und ein gutes Fahrzeug.“</p>
+        <div class="review-author">Google-Rezension</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tools-band" id="werkzeug">
+  <div class="wrap section-tight">
+    <div class="tools-head reveal">
+      <div>
+        <div class="eyebrow">Zusatzangebot</div>
+        <h2 style="font-size:26px; margin-top:12px;">Werkzeug &amp; Equipment</h2>
+      </div>
+      <span class="mono" style="font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); border:1px solid var(--line); padding:5px 12px; border-radius:20px;">optional · auf Anfrage</span>
+    </div>
+    <div class="tools-list reveal">
+      <div class="tools-item">
+        <h4>Bau &amp; Erdbau</h4>
+        <p>Rüttelplatten, Stemmhämmer und weiteres schweres Gerät.</p>
+      </div>
+      <div class="tools-item">
+        <h4>Garten &amp; Forst</h4>
+        <p>Heckenscheren, Freischneider, Rasenmäher.</p>
+      </div>
+      <div class="tools-item">
+        <h4>Holz &amp; Montage</h4>
+        <p>Sägen, Hobel, Magazinschrauber für Profis.</p>
+      </div>
+      <div class="tools-item">
+        <h4>Event &amp; Haus</h4>
+        <p>Partyzelt 12×6 m und Reinigungsgeräte.</p>
+      </div>
+    </div>
+    <p class="tools-cta">Verfügbarkeit und Preise auf Anfrage — <a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Werkzeug%2FEquipment.%20Um%20welches%20Ger%C3%A4t%20geht%20es%3A%20">einfach per WhatsApp fragen →</a></p>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap" style="max-width:760px;">
+    <div class="section-head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>Häufige Fragen</h2>
+    </div>
+    <div style="margin-top:30px;" class="reveal">
+      <details open>
+        <summary>Welchen Führerschein brauche ich?</summary>
+        <p>Anhänger bis 750 kg sind mit Klasse B fahrbar. Bei den Autotransportern kommt es auf das Zugfahrzeug an — wir beraten Sie hierzu gerne individuell.</p>
+      </details>
+      <details>
+        <summary>Wie schnell erhalte ich ein Angebot?</summary>
+        <p>Über WhatsApp erhalten Sie innerhalb von maximal 2 Stunden eine Rückmeldung.</p>
+      </details>
+      <details>
+        <summary>Wie hoch ist die Kaution?</summary>
+        <p>Die Kaution wird individuell nach Fahrzeugtyp vereinbart und einfach bei der Abholung hinterlegt.</p>
+      </details>
+      <details>
+        <summary>Sind Spanngurte inklusive?</summary>
+        <p>Ja, bei unseren Autotransportern sind passende Spanngurte bereits im Mietpreis enthalten.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer id="kontakt">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">Riemer<b>.</b></div>
+        <p class="foot-desc">Seit 2019 — unkomplizierte Fahrzeug- und Anhängervermietung in Reinheim. Angefragt per WhatsApp, beantwortet in unter zwei Stunden.</p>
+        <div class="foot-addr">
+          Michael Riemer<br>
+          Roßbergring 76, 64354 Reinheim
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Fuhrpark</h5>
+        <a href="#flotte">5-Sitzer Kombi</a>
+        <a href="#flotte">8/9-Sitzer Bus</a>
+        <a href="#flotte">Sprinter Kasten</a>
+        <a href="#flotte">Anhänger &amp; Trailer</a>
+      </div>
+      <div class="foot-col">
+        <h5>Werkzeug</h5>
+        <a href="#werkzeug">Bau &amp; Erdbau</a>
+        <a href="#werkzeug">Garten &amp; Forst</a>
+        <a href="#werkzeug">Holz &amp; Montage</a>
+        <a href="#werkzeug">Event &amp; Haus</a>
+      </div>
+      <div class="foot-col">
+        <h5>Kontakt</h5>
+        <a href="https://wa.me/4915678690950" target="_blank" rel="noopener">WhatsApp: 015678 690950</a>
+        <a href="tel:017682548282">Telefon: 0176 82548282</a>
+        <a href="mailto:michael@verleih-riemer.de">michael@verleih-riemer.de</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Einzelunternehmen KFZ- und Anhänger Verleih Riemer</span>
+      <span>Wir bewegen, was Sie planen.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="float-wa" target="_blank" rel="noopener" aria-label="WhatsApp Kontakt"
+   href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20habe%20Interesse%20an%20einer%20Anmietung.%20Bitte%20um%20kurzes%20Angebot.%0A%0A-%20Name%3A%20%0A-%20Gew%C3%BCnschter%20Zeitraum%3A%20%0A-%20Zielort%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.362.692 4.56 1.883 6.406L4 29l7.78-1.84A11.94 11.94 0 0016 27c6.628 0 12-5.373 12-12S22.629 3 16.001 3zm0 21.818c-1.905 0-3.68-.552-5.176-1.502l-.371-.232-4.62 1.093 1.11-4.51-.243-.383A9.76 9.76 0 016.182 15c0-5.415 4.404-9.818 9.819-9.818 5.415 0 9.818 4.403 9.818 9.818 0 5.415-4.403 9.818-9.818 9.818zm5.42-7.35c-.296-.148-1.75-.864-2.022-.963-.271-.099-.469-.148-.667.148-.198.297-.766.963-.939 1.161-.173.198-.346.223-.642.075-.296-.148-1.252-.461-2.385-1.47-.882-.786-1.478-1.757-1.651-2.054-.173-.297-.019-.457.13-.605.133-.132.297-.346.445-.519.148-.173.198-.297.297-.495.099-.198.05-.371-.025-.519-.074-.148-.667-1.607-.914-2.202-.24-.578-.485-.5-.667-.51l-.568-.01c-.198 0-.519.074-.79.371-.271.297-1.037 1.014-1.037 2.472s1.062 2.867 1.21 3.065c.148.198 2.088 3.188 5.058 4.47.707.305 1.258.487 1.688.623.709.226 1.354.194 1.864.118.569-.085 1.75-.715 1.997-1.406.247-.69.247-1.282.173-1.406-.074-.123-.271-.198-.568-.346z"/></svg>
+</a>
+
+<script>
+  // sticky header background
+  var header = document.getElementById('siteHeader');
+  function onScrollHeader(){
+    if (window.scrollY > 40) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScrollHeader, { passive:true });
+  onScrollHeader();
+
+  // mobile menu toggle
+  var menuToggle = document.getElementById('menuToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  var iconOpen = document.getElementById('menuIconOpen');
+  var iconClose = document.getElementById('menuIconClose');
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', function(){
+      var isOpen = mobileMenu.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      iconOpen.style.display = isOpen ? 'none' : 'block';
+      iconClose.style.display = isOpen ? 'block' : 'none';
+      header.classList.toggle('scrolled', isOpen || window.scrollY > 40);
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        mobileMenu.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        iconOpen.style.display = 'block';
+        iconClose.style.display = 'none';
+      });
+    });
+  }
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // subtle hero parallax
+  var heroBg = document.getElementById('heroBg');
+  if (heroBg && !reduceMotion) {
+    function parallax(){
+      var y = window.scrollY || 0;
+      heroBg.style.transform = 'translateY(' + (y * 0.12) + 'px)';
+      requestAnimationFrame(parallax);
+    }
+    requestAnimationFrame(parallax);
+  }
+
+  // scroll reveal
+  if ('IntersectionObserver' in window) {
+    var revealEls = document.querySelectorAll('.reveal');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-visible'); });
+  }
+</script>
+
+</body>
+</html>
