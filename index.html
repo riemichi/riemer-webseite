@@ -252,12 +252,14 @@
   .qc-pill-sm{ font-size:12.5px; padding:7px 12px; }
   .qc-pill[data-sub-target].selected{ background:var(--accent); border-color:var(--accent); color:var(--ink); }
 
-  .qc-date-row{ display:flex; align-items:center; gap:10px; margin-top:12px; flex-wrap:wrap; }
-  .qc-or{ font-size:12.5px; color:var(--ink-soft); }
+  .qc-date-range{ display:flex; gap:14px; flex-wrap:wrap; }
+  .qc-date-field{ display:flex; flex-direction:column; gap:6px; }
+  .qc-date-caption{ font-size:11.5px; font-weight:600; color:var(--ink-soft); }
+  .qc-date-caption em{ font-style:normal; opacity:0.65; font-weight:500; }
   .qc-date{
-    font-family:'Inter', sans-serif; font-size:13.5px; font-weight:600; color:var(--ink);
-    background:var(--paper); border:1.5px solid var(--line); border-radius:20px;
-    padding:8px 14px; cursor:pointer;
+    font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:var(--ink);
+    background:var(--paper); border:1.5px solid var(--line); border-radius:8px;
+    padding:10px 14px; cursor:pointer; min-width:150px;
   }
   .qc-date:focus{ outline:none; border-color:var(--accent); }
 
@@ -341,12 +343,7 @@
     border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center;
   }
-  .fleet-thumb img{
-    width:100%; height:100%; object-fit:cover; display:block;
-    clip-path:inset(0 100% 0 0);
-    transition:clip-path 1s cubic-bezier(.4,0,.2,1) 0.1s;
-  }
-  .fleet-item.is-visible .fleet-thumb img{ clip-path:inset(0 0 0 0); }
+  .fleet-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
   .fleet-thumb.empty{ font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-soft); text-align:center; padding:4px; line-height:1.3; }
   .fleet-group-head{ padding:30px 0 4px; border-top:2px solid var(--ink); margin-top:6px; }
   .fleet-group-head .eyebrow{ color:var(--ink); font-weight:700; }
@@ -394,18 +391,9 @@
   }
   .spec-table{ width:100%; border-collapse:collapse; font-size:14px; }
   .spec-table td{ padding:9px 0; border-bottom:1px solid var(--line-soft); }
-  .spec-table td:first-child{ color:var(--ink-soft); width:46%; }
+  .spec-table td:first-child{ color:var(--ink-soft); width:46%; padding-right:24px; }
+  .spec-table td:last-child{ padding-left:8px; }
 
-  /* wipe-in reveal for detail photos when accordion opens */
-  @keyframes photoWipe{
-    from{ clip-path:inset(0 0 0 100%); }
-    to{ clip-path:inset(0 0 0 0); }
-  }
-  .fleet-detail[open] .photo-slot img{
-    animation:photoWipe 0.7s cubic-bezier(.4,0,.2,1) both;
-  }
-  .fleet-detail[open] .photo-slot:nth-child(2) img{ animation-delay:0.08s; }
-  .fleet-detail[open] .photo-slot:nth-child(3) img{ animation-delay:0.16s; }
   .spec-table td:last-child{ font-weight:600; }
   .detail-note{ font-size:12.5px; color:var(--ink-soft); margin-top:14px; }
 
@@ -508,6 +496,7 @@
 
   /* ---------- Transport-Service ---------- */
   .transport-band{ background:#1b1a17; border-top:1px solid rgba(250,249,246,0.08); border-bottom:1px solid rgba(250,249,246,0.08); }
+  .transport-band .eyebrow{ color:rgba(250,249,246,0.55); }
   .transport-grid{ display:grid; grid-template-columns:1.2fr 1fr; gap:48px; align-items:center; }
   .transport-band h2{ color:var(--paper); }
   .transport-facts{ display:flex; flex-direction:column; gap:1px; background:rgba(250,249,246,0.1); border:1px solid rgba(250,249,246,0.1); border-radius:6px; overflow:hidden; }
@@ -641,6 +630,8 @@
     .hero-inner{ padding-top:110px; }
     .quick-request{ margin-top:-40px; padding-bottom:28px; }
     .quick-card{ padding:22px 18px 24px; border-radius:10px; }
+    .qc-date{ min-width:0; flex:1; }
+    .qc-date-field{ flex:1; min-width:130px; }
     .qc-header h3{ font-size:16.5px; }
     .qc-pill{ font-size:13px; padding:8px 13px; }
     .hero h1{ font-size:clamp(36px, 11vw, 48px); max-width:none; }
@@ -713,8 +704,6 @@
     .scroll-cue .line::after{ animation:none; }
     .hero-photo{ transform:none !important; }
     .process-arrow svg path{ stroke-dashoffset:0 !important; transition:none !important; }
-    .fleet-thumb img{ clip-path:none !important; transition:none !important; }
-    .fleet-detail[open] .photo-slot img{ animation:none !important; }
   }
 </style>
 </head>
@@ -805,13 +794,16 @@
         </div>
       </div>
       <div class="qc-row">
-        <span class="qc-label">Wann?</span>
-        <div class="qc-options" data-group="zeitraum">
-          <button type="button" class="qc-pill" data-value="heute oder morgen">Heute/Morgen</button>
-        </div>
-        <div class="qc-date-row">
-          <span class="qc-or">oder konkretes Datum:</span>
-          <input type="date" class="qc-date" id="qcDate" aria-label="Gewünschtes Datum">
+        <span class="qc-label">Zeitraum</span>
+        <div class="qc-date-range">
+          <div class="qc-date-field">
+            <span class="qc-date-caption">Von</span>
+            <input type="date" class="qc-date" id="qcDateFrom" aria-label="Abholdatum">
+          </div>
+          <div class="qc-date-field">
+            <span class="qc-date-caption">Bis <em>(optional)</em></span>
+            <input type="date" class="qc-date" id="qcDateTo" aria-label="Rückgabedatum">
+          </div>
         </div>
       </div>
       <button type="button" class="qc-submit" id="qcSubmit" disabled>
@@ -1466,7 +1458,7 @@
       <div>
         <div class="eyebrow">Ankauf</div>
         <h2 style="font-size:clamp(26px,3vw,34px); margin-top:12px; line-height:1.12;">Sie möchten Ihren Anhänger verkaufen?</h2>
-        <p style="margin-top:14px; color:var(--ink-soft); font-size:15.5px; max-width:52ch;">Wir kaufen Anhänger und Fahrzeuge aller Marken an — PKW-Anhänger, Koffer, Planenanhänger, Autotransporter und mehr. Auch mit Defekt oder ohne TÜV. Sofortige Barzahlung, schnelle Abwicklung in Reinheim und Umgebung.</p>
+        <p style="margin-top:14px; color:rgba(250,249,246,0.65); font-size:15.5px; max-width:52ch;">Wir kaufen Anhänger und Fahrzeuge aller Marken an — PKW-Anhänger, Koffer, Planenanhänger, Autotransporter und mehr. Auch mit Defekt oder ohne TÜV. Sofortige Barzahlung, schnelle Abwicklung in Reinheim und Umgebung.</p>
         <a class="btn-whatsapp" style="margin-top:22px;" target="_blank" rel="noopener"
            href="https://wa.me/4917682548282?text=Hallo%20Team%20Riemer%2C%20ich%20m%C3%B6chte%20Ihnen%20einen%20Anh%C3%A4nger%2FFahrzeug%20zum%20Ankauf%20anbieten.%0A%0A-%20Marke%2FTyp%3A%20%0A-%20Zustand%3A%20%0A-%20Preisvorstellung%3A%20%0A%0AIch%20sende%20Fotos%20und%20den%20Fahrzeugschein%20direkt%20mit.">
           <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.362.692 4.56 1.883 6.406L4 29l7.78-1.84A11.94 11.94 0 0016 27c6.628 0 12-5.373 12-12S22.629 3 16.001 3zm0 21.818c-1.905 0-3.68-.552-5.176-1.502l-.371-.232-4.62 1.093 1.11-4.51-.243-.383A9.76 9.76 0 016.182 15c0-5.415 4.404-9.818 9.819-9.818 5.415 0 9.818 4.403 9.818 9.818 0 5.415-4.403 9.818-9.818 9.818zm5.42-7.35c-.296-.148-1.75-.864-2.022-.963-.271-.099-.469-.148-.667.148-.198.297-.766.963-.939 1.161-.173.198-.346.223-.642.075-.296-.148-1.252-.461-2.385-1.47-.882-.786-1.478-1.757-1.651-2.054-.173-.297-.019-.457.13-.605.133-.132.297-.346.445-.519.148-.173.198-.297.297-.495.099-.198.05-.371-.025-.519-.074-.148-.667-1.607-.914-2.202-.24-.578-.485-.5-.667-.51l-.568-.01c-.198 0-.519.074-.79.371-.271.297-1.037 1.014-1.037 2.472s1.062 2.867 1.21 3.065c.148.198 2.088 3.188 5.058 4.47.707.305 1.258.487 1.688.623.709.226 1.354.194 1.864.118.569-.085 1.75-.715 1.997-1.406.247-.69.247-1.282.173-1.406-.074-.123-.271-.198-.568-.346z"/></svg>
@@ -1490,7 +1482,7 @@
       <h2>Häufige Fragen</h2>
     </div>
     <div style="margin-top:30px;" class="reveal">
-      <details open>
+      <details>
         <summary>Welchen Führerschein brauche ich für einen Anhänger?</summary>
         <p>Für die meisten unserer Anhänger reicht die normale Klasse B. Viele wissen nicht, wie weit die eigentlich trägt:</p>
         <table class="spec-table" style="margin:14px 0;">
@@ -1616,8 +1608,6 @@
     var vehicleGroup = document.querySelector('.qc-options[data-group="vehicle"]');
     var subGroup = document.querySelector('.qc-options[data-group="anhaenger-type"]');
     var subWrap = document.getElementById('qcAnhaengerSub');
-    var zeitraumGroup = document.querySelector('.qc-options[data-group="zeitraum"]');
-    var dateInput = document.getElementById('qcDate');
     var submitBtn = document.getElementById('qcSubmit');
     var submitLabel = document.getElementById('qcSubmitLabel');
     if (!submitBtn) return;
@@ -1652,30 +1642,36 @@
       });
     }
 
-    // "Heute/Morgen" quick pill
-    zeitraumGroup.querySelectorAll('.qc-pill').forEach(function(pill){
-      pill.addEventListener('click', function(){
-        zeitraumGroup.querySelectorAll('.qc-pill').forEach(function(p){ p.classList.remove('selected'); });
-        pill.classList.add('selected');
-        if (dateInput) dateInput.value = '';
-        selections.zeitraum = pill.getAttribute('data-value');
-        updateSubmit();
-      });
-    });
+    var dateFrom = document.getElementById('qcDateFrom');
+    var dateTo = document.getElementById('qcDateTo');
 
-    // custom date picker
-    if (dateInput) {
-      var today = new Date();
-      dateInput.min = today.toISOString().split('T')[0];
+    function formatDate(value){
+      var d = new Date(value + 'T00:00:00');
+      return d.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
+    }
 
-      dateInput.addEventListener('change', function(){
-        if (!dateInput.value) return;
-        zeitraumGroup.querySelectorAll('.qc-pill').forEach(function(p){ p.classList.remove('selected'); });
-        var d = new Date(dateInput.value + 'T00:00:00');
-        var formatted = d.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
-        selections.zeitraum = 'am ' + formatted;
-        updateSubmit();
+    function updateZeitraum(){
+      if (!dateFrom.value) {
+        selections.zeitraum = null;
+      } else if (dateTo.value) {
+        selections.zeitraum = 'von ' + formatDate(dateFrom.value) + ' bis ' + formatDate(dateTo.value);
+      } else {
+        selections.zeitraum = 'ab ' + formatDate(dateFrom.value);
+      }
+      updateSubmit();
+    }
+
+    if (dateFrom && dateTo) {
+      var today = new Date().toISOString().split('T')[0];
+      dateFrom.min = today;
+      dateTo.min = today;
+
+      dateFrom.addEventListener('change', function(){
+        dateTo.min = dateFrom.value || today;
+        if (dateTo.value && dateTo.value < dateFrom.value) dateTo.value = '';
+        updateZeitraum();
       });
+      dateTo.addEventListener('change', updateZeitraum);
     }
 
     function updateSubmit(){
