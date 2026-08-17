@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://riemichi.github.io/riemer-webseite/sitemap.xml

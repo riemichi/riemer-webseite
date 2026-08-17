@@ -3,8 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>KFZ &amp; Anhänger Verleih Riemer — Reinheim</title>
-<meta name="description" content="Fahrzeuge und Anhänger unkompliziert mieten in Reinheim. Anfrage direkt per WhatsApp – Antwort in unter 2 Stunden.">
+<title>Anhängerverleih &amp; KFZ-Vermietung Riemer | Reinheim &amp; Umgebung</title>
+<meta name="description" content="Anhänger, Kombi, Bus und Transporter mieten in Reinheim bei Darmstadt. Planenanhänger, Autotransporter, Kipper & mehr – Anfrage per WhatsApp, Antwort in unter 2 Stunden.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://riemichi.github.io/riemer-webseite/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KFZ- und Anhänger Verleih Riemer">
+<meta property="og:title" content="Anhängerverleih & KFZ-Vermietung Riemer | Reinheim">
+<meta property="og:description" content="Anhänger, Kombi, Bus und Transporter mieten in Reinheim bei Darmstadt. Anfrage per WhatsApp, Antwort in unter 2 Stunden.">
+<meta property="og:url" content="https://riemichi.github.io/riemer-webseite/">
+<meta property="og:locale" content="de_DE">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Anhängerverleih & KFZ-Vermietung Riemer | Reinheim">
+<meta name="twitter:description" content="Anhänger, Kombi, Bus und Transporter mieten in Reinheim bei Darmstadt. Anfrage per WhatsApp, Antwort in unter 2 Stunden.">
+
+<!-- LocalBusiness structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "KFZ- und Anhänger Verleih Riemer",
+  "url": "https://riemichi.github.io/riemer-webseite/",
+  "telephone": "+49-176-82548282",
+  "priceRange": "€€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Roßbergring 76",
+    "addressLocality": "Reinheim",
+    "postalCode": "64354",
+    "addressRegion": "Hessen",
+    "addressCountry": "DE"
+  },
+  "areaServed": {
+    "@type": "GeoCircle",
+    "geoMidpoint": { "@type": "GeoCoordinates", "latitude": 49.8272, "longitude": 8.8384 },
+    "geoRadius": "40000"
+  },
+  "founder": "Michael Riemer",
+  "foundingDate": "2019",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "7"
+  },
+  "sameAs": [
+    "https://wa.me/4915678690950"
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
@@ -565,7 +615,8 @@
     .fleet-specs{ grid-area:specs; }
     .fleet-row > a{ grid-area:cta; justify-self:start; }
     .process-flow{ grid-template-columns:1fr; gap:0; }
-    .process-arrow{ transform:rotate(90deg); padding:6px 0; justify-content:flex-start; padding-left:26px; }
+    .process-arrow{ padding:6px 0; justify-content:flex-start; padding-left:26px; }
+    .process-arrow svg{ transform:rotate(90deg); }
     .process-step{ padding:14px 4px; }
     .process-icon{ width:52px; height:52px; }
     .process-icon svg{ width:30px; height:30px; }
@@ -747,7 +798,7 @@
 <section class="hero" id="top">
   <div class="hero-photo" id="heroBg"></div>
   <div class="wrap hero-inner">
-    <div class="hero-eyebrow eyebrow">Reinheim · seit 2019</div>
+    <div class="hero-eyebrow eyebrow">Seit 2019</div>
     <h1>Ihre Mobilität<br>für Ihr <span class="accent">Projekt.</span></h1>
     <p class="lede">Kombi, Bus, Transporter und Anhänger — unkompliziert gebucht, ohne Wartezeit am Telefon.</p>
     <div class="hero-cta">
@@ -1183,8 +1234,8 @@
   </div>
 </section>
 
-<section class="process-band" id="ablauf">
-  <div class="wrap section">
+<section class="process-band section" id="ablauf">
+  <div class="wrap">
     <div class="section-head reveal">
       <div class="eyebrow">Ablauf</div>
       <h2>Drei Schritte, kein Papierkram.</h2>
@@ -1284,8 +1335,8 @@
   </div>
 </section>
 
-<section class="reviews-band">
-  <div class="wrap section-tight">
+<section class="reviews-band section-tight">
+  <div class="wrap">
     <div class="reviews-head reveal">
       <div>
         <div class="eyebrow">Kundenstimmen</div>
@@ -1323,8 +1374,8 @@
   </div>
 </section>
 
-<section class="tools-band" id="werkzeug">
-  <div class="wrap section-tight">
+<section class="tools-band section-tight" id="werkzeug">
+  <div class="wrap">
     <div class="tools-head reveal">
       <div>
         <div class="eyebrow">Zusatzangebot</div>
@@ -1494,6 +1545,10 @@
       <details>
         <summary>Wie hoch ist die Kaution?</summary>
         <p>Die Kaution wird individuell nach Fahrzeugtyp vereinbart und einfach bei der Abholung hinterlegt.</p>
+      </details>
+      <details>
+        <summary>Wie kann ich bezahlen?</summary>
+        <p>Bar, per PayPal oder per Überweisung — was für Sie am einfachsten ist.</p>
       </details>
       <details>
         <summary>Sind Spanngurte inklusive?</summary>
