@@ -303,16 +303,62 @@
   .qc-pill-sm{ font-size:12.5px; padding:7px 12px; }
   .qc-pill[data-sub-target].selected{ background:var(--accent); border-color:var(--accent); color:var(--ink); }
 
-  .qc-date-range{ display:flex; gap:14px; flex-wrap:wrap; }
-  .qc-date-field{ display:flex; flex-direction:column; gap:6px; }
-  .qc-date-caption{ font-size:11.5px; font-weight:600; color:var(--ink-soft); }
-  .qc-date-caption em{ font-style:normal; opacity:0.65; font-weight:500; }
-  .qc-date{
-    font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:var(--ink);
+  .qc-date-single{ position:relative; }
+  .qc-date-trigger{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+    font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:var(--ink-soft);
     background:var(--paper); border:1.5px solid var(--line); border-radius:8px;
-    padding:10px 14px; cursor:pointer; min-width:150px;
+    padding:10px 14px; cursor:pointer;
   }
-  .qc-date:focus{ outline:none; border-color:var(--accent); }
+  .qc-date-trigger svg{ width:16px; height:16px; flex-shrink:0; color:var(--ink-soft); }
+  .qc-date-trigger:hover, .qc-date-trigger.active{ border-color:var(--accent); }
+  .qc-date-trigger.has-value{ color:var(--ink); }
+  .qc-date-trigger-label{ flex:1; }
+
+  .qc-date-popover{
+    position:absolute; top:calc(100% + 8px); left:0; z-index:40;
+    width:302px; max-width:calc(100vw - 40px);
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.22); padding:16px;
+  }
+  .qc-date-popover[hidden]{ display:none; }
+  .qc-cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .qc-cal-title{ font-family:'Inter', sans-serif; font-weight:700; font-size:13.5px; color:var(--ink); text-transform:capitalize; }
+  .qc-cal-nav{
+    width:28px; height:28px; border-radius:6px; border:1px solid var(--line); background:var(--paper);
+    color:var(--ink); font-size:16px; line-height:1; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .qc-cal-nav:hover:not(:disabled){ border-color:var(--accent); color:var(--accent); }
+  .qc-cal-nav:disabled{ opacity:0.3; cursor:not-allowed; }
+  .qc-cal-weekdays{ display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:4px; }
+  .qc-cal-weekdays span{ font-family:'Inter', sans-serif; font-size:10.5px; font-weight:600; color:var(--ink-soft); text-align:center; }
+  .qc-cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+  .qc-cal-day{
+    aspect-ratio:1; border:none; background:transparent; border-radius:6px;
+    font-family:'Inter', sans-serif; font-size:12.5px; font-weight:600; color:var(--ink);
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .qc-cal-day:hover:not(:disabled){ background:#f1efe9; }
+  .qc-cal-day:disabled{ color:var(--ink-soft); opacity:0.35; cursor:not-allowed; }
+  .qc-cal-day.qc-empty{ visibility:hidden; cursor:default; }
+  .qc-cal-day.qc-today{ box-shadow:inset 0 0 0 1.5px var(--accent); }
+  .qc-cal-day.qc-in-range{ background:rgba(201,145,26,0.16); border-radius:0; }
+  .qc-cal-day.qc-in-range:hover:not(:disabled){ background:rgba(201,145,26,0.26); }
+  .qc-cal-day.qc-range-start{ border-radius:6px 0 0 6px; }
+  .qc-cal-day.qc-range-end{ border-radius:0 6px 6px 0; }
+  .qc-cal-day.qc-selected{ background:var(--ink); color:var(--paper); }
+  .qc-cal-day.qc-selected:hover:not(:disabled){ background:var(--ink); }
+  .qc-cal-footer{ margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .qc-cal-hint{ font-family:'Inter', sans-serif; font-size:11px; color:var(--ink-soft); }
+  .qc-cal-actions{ display:flex; gap:8px; }
+  .qc-cal-clear, .qc-cal-done{
+    font-family:'Inter', sans-serif; font-size:12px; font-weight:700; border-radius:6px;
+    padding:7px 12px; cursor:pointer; border:1.5px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  .qc-cal-clear:hover{ border-color:var(--ink-soft); }
+  .qc-cal-done{ background:var(--accent); border-color:var(--accent); }
+  .qc-cal-done:hover{ opacity:0.9; }
 
   .scroll-cue{
     position:absolute; right:32px; bottom:36px; z-index:2;
@@ -683,8 +729,7 @@
     .hero-inner{ padding-top:110px; }
     .quick-request{ margin-top:-40px; padding-bottom:28px; }
     .quick-card{ padding:22px 18px 24px; border-radius:10px; }
-    .qc-date{ min-width:0; flex:1; }
-    .qc-date-field{ flex:1; min-width:130px; }
+    .qc-date-popover{ left:50%; transform:translateX(-50%); width:calc(100vw - 56px); }
     .qc-header h3{ font-size:16.5px; }
     .qc-pill{ font-size:13px; padding:8px 13px; }
     .hero h1{ font-size:clamp(36px, 11vw, 48px); max-width:none; }
@@ -849,14 +894,26 @@
       </div>
       <div class="qc-row">
         <span class="qc-label">Zeitraum</span>
-        <div class="qc-date-range">
-          <div class="qc-date-field">
-            <span class="qc-date-caption">Von</span>
-            <input type="date" class="qc-date" id="qcDateFrom" aria-label="Abholdatum">
-          </div>
-          <div class="qc-date-field">
-            <span class="qc-date-caption">Bis <em>(optional)</em></span>
-            <input type="date" class="qc-date" id="qcDateTo" aria-label="Rückgabedatum">
+        <div class="qc-date-single" id="qcDateWrap">
+          <button type="button" class="qc-date-trigger" id="qcDateTrigger" aria-haspopup="dialog" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+            <span class="qc-date-trigger-label" id="qcDateTriggerLabel">Zeitraum wählen</span>
+          </button>
+          <div class="qc-date-popover" id="qcDatePopover" role="dialog" aria-label="Zeitraum wählen" hidden>
+            <div class="qc-cal-head">
+              <button type="button" class="qc-cal-nav" id="qcCalPrev" aria-label="Vorheriger Monat">‹</button>
+              <span class="qc-cal-title" id="qcCalTitle"></span>
+              <button type="button" class="qc-cal-nav" id="qcCalNext" aria-label="Nächster Monat">›</button>
+            </div>
+            <div class="qc-cal-weekdays"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div>
+            <div class="qc-cal-grid" id="qcCalGrid"></div>
+            <div class="qc-cal-footer">
+              <span class="qc-cal-hint" id="qcCalHint">Abholdatum wählen</span>
+              <div class="qc-cal-actions">
+                <button type="button" class="qc-cal-clear" id="qcCalClear">Zurücksetzen</button>
+                <button type="button" class="qc-cal-done" id="qcCalDone">Übernehmen</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1590,7 +1647,7 @@
         <h5>Kontakt</h5>
         <a href="https://wa.me/4915678690950" target="_blank" rel="noopener">WhatsApp: 015678 690950</a>
         <a href="tel:017682548282">Telefon: 0176 82548282</a>
-        <a href="mailto:michael@verleih-riemer.de">michael@verleih-riemer.de</a>
+        <a href="mailto:verleih.riemer@gmail.com">verleih.riemer@gmail.com</a>
         <a href="https://www.kleinanzeigen.de/pro/kfz-u-anhaenger-verleih-riemer" target="_blank" rel="noopener">Auf Kleinanzeigen ansehen</a>
       </div>
     </div>
@@ -1685,36 +1742,140 @@
       });
     }
 
-    var dateFrom = document.getElementById('qcDateFrom');
-    var dateTo = document.getElementById('qcDateTo');
+    // date range popover
+    var dateWrap = document.getElementById('qcDateWrap');
+    if (dateWrap) {
+      var dateTrigger = document.getElementById('qcDateTrigger');
+      var dateTriggerLabel = document.getElementById('qcDateTriggerLabel');
+      var datePopover = document.getElementById('qcDatePopover');
+      var calGrid = document.getElementById('qcCalGrid');
+      var calTitle = document.getElementById('qcCalTitle');
+      var calPrev = document.getElementById('qcCalPrev');
+      var calNext = document.getElementById('qcCalNext');
+      var calHint = document.getElementById('qcCalHint');
+      var calClear = document.getElementById('qcCalClear');
+      var calDone = document.getElementById('qcCalDone');
 
-    function formatDate(value){
-      var d = new Date(value + 'T00:00:00');
-      return d.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
-    }
+      var today = new Date(); today.setHours(0,0,0,0);
+      var viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      var rangeStart = null, rangeEnd = null;
 
-    function updateZeitraum(){
-      if (!dateFrom.value) {
-        selections.zeitraum = null;
-      } else if (dateTo.value) {
-        selections.zeitraum = 'von ' + formatDate(dateFrom.value) + ' bis ' + formatDate(dateTo.value);
-      } else {
-        selections.zeitraum = 'ab ' + formatDate(dateFrom.value);
+      function formatDate(d){
+        return d.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
       }
-      updateSubmit();
-    }
+      function sameDay(a, b){
+        return a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+      }
 
-    if (dateFrom && dateTo) {
-      var today = new Date().toISOString().split('T')[0];
-      dateFrom.min = today;
-      dateTo.min = today;
+      function updateZeitraum(){
+        if (!rangeStart) {
+          selections.zeitraum = null;
+        } else if (rangeEnd) {
+          selections.zeitraum = 'von ' + formatDate(rangeStart) + ' bis ' + formatDate(rangeEnd);
+        } else {
+          selections.zeitraum = 'ab ' + formatDate(rangeStart);
+        }
+        updateSubmit();
+      }
 
-      dateFrom.addEventListener('change', function(){
-        dateTo.min = dateFrom.value || today;
-        if (dateTo.value && dateTo.value < dateFrom.value) dateTo.value = '';
+      function updateHintAndLabel(){
+        if (!rangeStart) {
+          calHint.textContent = 'Abholdatum wählen';
+          dateTriggerLabel.textContent = 'Zeitraum wählen';
+          dateTrigger.classList.remove('has-value');
+        } else if (!rangeEnd) {
+          calHint.textContent = 'Rückgabedatum wählen (optional)';
+          dateTriggerLabel.textContent = 'Ab ' + formatDate(rangeStart);
+          dateTrigger.classList.add('has-value');
+        } else {
+          calHint.textContent = 'Zeitraum ausgewählt';
+          dateTriggerLabel.textContent = formatDate(rangeStart) + ' – ' + formatDate(rangeEnd);
+          dateTrigger.classList.add('has-value');
+        }
+      }
+
+      function onDayClick(d){
+        if (!rangeStart || rangeEnd) {
+          rangeStart = d; rangeEnd = null;
+        } else if (d < rangeStart) {
+          rangeStart = d; rangeEnd = null;
+        } else if (!sameDay(d, rangeStart)) {
+          rangeEnd = d;
+        }
+        renderCalendar();
+        updateHintAndLabel();
+        updateZeitraum();
+      }
+
+      function renderCalendar(){
+        calTitle.textContent = viewDate.toLocaleDateString('de-DE', { month:'long', year:'numeric' });
+        calGrid.innerHTML = '';
+        var firstOfMonth = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
+        var startOffset = (firstOfMonth.getDay() + 6) % 7; // Monday = 0
+        var daysInMonth = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 0).getDate();
+        for (var i = 0; i < startOffset; i++) {
+          var empty = document.createElement('span');
+          empty.className = 'qc-cal-day qc-empty';
+          calGrid.appendChild(empty);
+        }
+        for (var day = 1; day <= daysInMonth; day++) {
+          (function(day){
+            var d = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'qc-cal-day';
+            btn.textContent = day;
+            var disabled = d < today;
+            if (disabled) btn.disabled = true;
+            if (sameDay(d, today)) btn.classList.add('qc-today');
+            if (rangeStart && sameDay(d, rangeStart)) btn.classList.add('qc-selected', 'qc-range-start');
+            if (rangeEnd && sameDay(d, rangeEnd)) btn.classList.add('qc-selected', 'qc-range-end');
+            if (rangeStart && rangeEnd && d > rangeStart && d < rangeEnd) btn.classList.add('qc-in-range');
+            if (!disabled) btn.addEventListener('click', function(){ onDayClick(d); });
+            calGrid.appendChild(btn);
+          })(day);
+        }
+        calPrev.disabled = (viewDate.getFullYear() === today.getFullYear() && viewDate.getMonth() === today.getMonth());
+      }
+
+      function openPopover(){
+        datePopover.removeAttribute('hidden');
+        dateTrigger.classList.add('active');
+        dateTrigger.setAttribute('aria-expanded', 'true');
+        renderCalendar();
+      }
+      function closePopover(){
+        datePopover.setAttribute('hidden', '');
+        dateTrigger.classList.remove('active');
+        dateTrigger.setAttribute('aria-expanded', 'false');
+      }
+
+      dateTrigger.addEventListener('click', function(e){
+        e.stopPropagation();
+        if (datePopover.hasAttribute('hidden')) openPopover(); else closePopover();
+      });
+      calPrev.addEventListener('click', function(){
+        viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
+        renderCalendar();
+      });
+      calNext.addEventListener('click', function(){
+        viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1);
+        renderCalendar();
+      });
+      calClear.addEventListener('click', function(){
+        rangeStart = null; rangeEnd = null;
+        renderCalendar();
+        updateHintAndLabel();
         updateZeitraum();
       });
-      dateTo.addEventListener('change', updateZeitraum);
+      calDone.addEventListener('click', function(){ closePopover(); });
+      document.addEventListener('click', function(e){
+        var path = e.composedPath ? e.composedPath() : [];
+        if (path.indexOf(dateWrap) === -1) closePopover();
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape') closePopover();
+      });
     }
 
     function updateSubmit(){
