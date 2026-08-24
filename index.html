@@ -360,6 +360,79 @@
   .qc-cal-done{ background:var(--accent); border-color:var(--accent); }
   .qc-cal-done:hover{ opacity:0.9; }
 
+  /* ---------- site search ---------- */
+  .btn-nav-search{
+    display:flex; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid rgba(250,249,246,0.25); background:transparent;
+    color:rgba(250,249,246,0.85); cursor:pointer; flex-shrink:0;
+  }
+  header.scrolled .btn-nav-search{ border-color:var(--line); color:var(--ink); }
+  .btn-nav-search:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-nav-search svg{ width:17px; height:17px; }
+
+  .search-overlay{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(12,11,10,0.55); backdrop-filter:blur(3px);
+    display:flex; justify-content:center; align-items:flex-start;
+    padding:80px 20px 20px;
+  }
+  .search-overlay[hidden]{ display:none; }
+  .search-panel{
+    width:100%; max-width:640px; background:var(--paper);
+    border-radius:12px; box-shadow:0 24px 60px rgba(0,0,0,0.3);
+    overflow:hidden; display:flex; flex-direction:column; max-height:calc(100vh - 100px);
+  }
+  .search-bar{ display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--line); }
+  .search-bar svg{ width:19px; height:19px; color:var(--ink-soft); flex-shrink:0; }
+  #searchInput{
+    flex:1; border:none; outline:none; background:transparent;
+    font-family:'Inter', sans-serif; font-size:16px; font-weight:500; color:var(--ink);
+  }
+  #searchInput::placeholder{ color:var(--ink-soft); opacity:0.7; font-weight:400; }
+  .search-close{
+    border:none; background:transparent; cursor:pointer; color:var(--ink-soft);
+    font-size:12px; font-weight:700; font-family:'Inter', sans-serif;
+    border:1px solid var(--line); border-radius:6px; padding:5px 9px;
+  }
+  .search-close:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .search-results{ overflow-y:auto; padding:8px 0 12px; }
+  .search-group-label{
+    font-family:'Inter', sans-serif; font-size:10.5px; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--ink-soft); padding:12px 18px 6px;
+  }
+  .search-hit{
+    display:block; width:100%; text-align:left; border:none; background:transparent;
+    padding:10px 18px; cursor:pointer; font-family:'Inter', sans-serif;
+  }
+  .search-hit:hover, .search-hit.active{ background:rgba(201,145,26,0.12); }
+  .search-hit-title{ font-size:14.5px; font-weight:600; color:var(--ink); }
+  .search-hit-sub{ font-size:12.5px; color:var(--ink-soft); margin-top:2px; line-height:1.4; }
+  .search-hit mark{ background:rgba(201,145,26,0.35); color:inherit; border-radius:2px; padding:0 1px; }
+  .search-empty{ padding:26px 18px; text-align:center; }
+  .search-empty p{ font-size:14px; color:var(--ink-soft); }
+  .search-empty a{ color:var(--accent-deep); font-weight:600; text-decoration:underline; }
+  .search-tips{ padding:16px 18px 8px; }
+  .search-tips-label{ font-size:12px; color:var(--ink-soft); margin-bottom:10px; }
+  .search-tip-pills{ display:flex; flex-wrap:wrap; gap:7px; }
+  .search-tip{
+    font-family:'Inter', sans-serif; font-size:12.5px; font-weight:500;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+    border-radius:20px; padding:6px 12px; cursor:pointer;
+  }
+  .search-tip:hover{ border-color:var(--accent); color:var(--accent-deep); }
+  .search-flash{ animation:searchFlash 2s ease-out; }
+  @keyframes searchFlash{
+    0%, 55% { background:rgba(201,145,26,0.20); }
+    100% { background:transparent; }
+  }
+  .mobile-menu-search{
+    display:flex; align-items:center; gap:10px; width:100%;
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Inter', sans-serif; text-align:left;
+  }
+  .mobile-menu-search svg{ width:17px; height:17px; }
+
   .scroll-cue{
     position:absolute; right:32px; bottom:36px; z-index:2;
     display:flex; align-items:center; gap:10px;
@@ -820,6 +893,9 @@
       <a href="#faq">FAQ</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
+    <button class="btn-nav-search" id="searchOpen" aria-label="Suchen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    </button>
     <a class="btn-nav-wa" target="_blank" rel="noopener"
        href="https://wa.me/4915678690950?text=Hallo%20Team%20Riemer%2C%20ich%20habe%20Interesse%20an%20einer%20Anmietung.%20Bitte%20um%20kurzes%20Angebot.%0A%0A-%20Name%3A%20%0A-%20Gew%C3%BCnschter%20Zeitraum%3A%20%0A-%20Zielort%3A%20%0A-%20Ungef%C3%A4hre%20Kilometer%3A">
       <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.362.692 4.56 1.883 6.406L4 29l7.78-1.84A11.94 11.94 0 0016 27c6.628 0 12-5.373 12-12S22.629 3 16.001 3zm0 21.818c-1.905 0-3.68-.552-5.176-1.502l-.371-.232-4.62 1.093 1.11-4.51-.243-.383A9.76 9.76 0 016.182 15c0-5.415 4.404-9.818 9.819-9.818 5.415 0 9.818 4.403 9.818 9.818 0 5.415-4.403 9.818-9.818 9.818zm5.42-7.35c-.296-.148-1.75-.864-2.022-.963-.271-.099-.469-.148-.667.148-.198.297-.766.963-.939 1.161-.173.198-.346.223-.642.075-.296-.148-1.252-.461-2.385-1.47-.882-.786-1.478-1.757-1.651-2.054-.173-.297-.019-.457.13-.605.133-.132.297-.346.445-.519.148-.173.198-.297.297-.495.099-.198.05-.371-.025-.519-.074-.148-.667-1.607-.914-2.202-.24-.578-.485-.5-.667-.51l-.568-.01c-.198 0-.519.074-.79.371-.271.297-1.037 1.014-1.037 2.472s1.062 2.867 1.21 3.065c.148.198 2.088 3.188 5.058 4.47.707.305 1.258.487 1.688.623.709.226 1.354.194 1.864.118.569-.085 1.75-.715 1.997-1.406.247-.69.247-1.282.173-1.406-.074-.123-.271-.198-.568-.346z"/></svg>WhatsApp
@@ -830,6 +906,10 @@
     </button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-search" id="searchOpenMobile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      Suchen
+    </button>
     <a href="#flotte">Flotte</a>
     <a href="#ablauf">Ablauf</a>
     <a href="#werkzeug">Werkzeug</a>
@@ -843,6 +923,17 @@
   </div>
   </div>
 </header>
+
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-label="Suche" hidden>
+  <div class="search-panel">
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input type="text" id="searchInput" placeholder="Wonach suchen Sie? z. B. Loch bohren, Umzug, sauber machen" autocomplete="off" spellcheck="false">
+      <button class="search-close" id="searchClose">Schließen</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
 
 <section class="hero" id="top">
   <div class="hero-photo" id="heroBg"></div>
@@ -1927,6 +2018,304 @@
     revealEls.forEach(function(el){ io.observe(el); });
   } else {
     document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  // ---------- site search ----------
+  var SEARCH_INDEX = [
+    // --- Fahrzeuge & Anhänger ---
+    { id:'kombi', g:'fahrzeug', t:'5-Sitzer Kombi', s:'Pkw für Alltag & Projekt — ab 50 €/Tag',
+      k:'auto pkw wagen kombi fahrzeug familie urlaub reise alltag ausflug fuenf sitze sitzer leihwagen mietwagen ersatzwagen ersatzauto werkstatt einkauf' },
+    { id:'bus', g:'fahrzeug', t:'8- & 9-Sitzer Bus', s:'VW T5 / T6 — 99 €/24 Std.',
+      k:'bus kleinbus minibus vw t5 t6 neun acht sitzer sitze gruppe verein ausflug mannschaft team hochzeit feier fahrgemeinschaft personen viele leute grosse familie kinder mitfahren mitnehmen' },
+    { id:'sprinter', g:'fahrzeug', t:'Transporter (Sprinter)', s:'Laderaum 3,27 × 1,78 × 1,72 m — 99 €/24 Std.',
+      k:'transporter sprinter kastenwagen lieferwagen kasten umzug umziehen wohnung moebel sofa couch schrank kueche bett waschmaschine transport liefern abholen sperrgut palette europalette gross grosse sachen gewerblich handwerker laderaum baumarkt' },
+    { id:'planenanhaenger', g:'fahrzeug', t:'Planenanhänger', s:'750 kg / 1.300 kg — 30 €/24 Std.',
+      k:'anhaenger haenger plane planenanhaenger umzug sperrgut baumaterial gartenabfall transport kisten regen wetterfest geschuetzt trocken abdeckung baumarkt moebel 750 1300 klein' },
+    { id:'motorradanhaenger', g:'fahrzeug', t:'Motorradanhänger', s:'Platz für bis zu 3 Motorräder — 30 €/24 Std.',
+      k:'motorrad motorraeder bike bikes maschine roller moped quad transport anhaenger gurtset schiene rad zweirad harley enduro' },
+    { id:'kipper', g:'fahrzeug', t:'Kipper 3,5 t', s:'Dreiseitenkipper — 60 €/24 Std., 100 € Wochenende',
+      k:'kipper dreiseitenkipper abkippen kippen erdaushub aushub erde schutt bauschutt gruenschnitt gartenabfall abfall muell schotter kies sand mulch entsorgen entsorgung deponie wertstoffhof baustelle garten umgraben klasse be schwer' },
+    { id:'autotransporter', g:'fahrzeug', t:'Autotransporter 1,5 t', s:'Einachser — 40 €/Tag',
+      k:'autotransporter auto transportieren fahrzeug pkw transport abschleppen abschlepper unfallwagen unfall oldtimer rennwagen werkstatt ueberfuehrung einachser kleinwagen scheunenfund kaufen abholen' },
+    { id:'autotransporter-3t', g:'fahrzeug', t:'Autotransporter 2,6 t', s:'Mit Alko-Seilwinde — 50 €/Tag',
+      k:'autotransporter auto transportieren fahrzeug transport schweres auto suv gelaendewagen bus seilwinde winde ueberfuehrung oldtimer unfall werkstatt ratschegurte gurte 100er kaufen abholen defekt' },
+
+    // --- Bau & Abbruch ---
+    { id:'werkzeug-bau', g:'werkzeug', t:'Rüttelplatte 105 kg', s:'Bau & Abbruch — 20 kN, inkl. PU-Matte',
+      k:'ruettelplatte ruetteln ruettler verdichten verdichter stampfer platte pflaster pflastern schotter unterbau graben graeben einfahrt weg terrasse boden untergrund erde festmachen absacken' },
+    { id:'werkzeug-bau', g:'werkzeug', t:'Stemmhammer 16,5 kg', s:'Bau & Abbruch — 60 kN, inkl. Spitz- & Flachmeißel',
+      k:'stemmhammer abbruchhammer presslufthammer abbruch abriss stemmen meisseln meissel fliesen estrich beton mauer wand aufstemmen kaputt machen entfernen rausreissen durchbruch' },
+    { id:'werkzeug-bau', g:'werkzeug', t:'Makita Akku-Stemmhammer 3,5 kg', s:'Bau & Abbruch — inkl. Meißel',
+      k:'stemmhammer akku klein leicht meissel fliesen putz stemmen abbruch kabellos makita bad badezimmer' },
+    { id:'werkzeug-bau', g:'werkzeug', t:'LUMAG Benzin-Erdbohrgerät EB-400PRO', s:'Bau & Abbruch — 50 €/Tag, inkl. 3 Bohrer',
+      k:'erdbohrer erdbohrgeraet erdlochbohrer loch loecher bohren bohrer erde erdreich boden zaun zaunpfahl zaunpfosten pfosten pfahl fundament punktfundament pflanzen pflanzloch baum baeume strauch hecke setzen carport terrasse benzin lumag graben' },
+
+    // --- Garten & Grünpflege ---
+    { id:'werkzeug-garten', g:'werkzeug', t:'Makita Akku-Laubbläser', s:'Garten & Grünpflege',
+      k:'laub laubblaeser blaeser blasen blaetter herbst garten hof einfahrt kehren fegen sauber reinigen akku makita' },
+    { id:'werkzeug-garten', g:'werkzeug', t:'Makita Akku-Rasenmäher', s:'Garten & Grünpflege',
+      k:'rasen rasenmaeher maeher maehen gras wiese garten schnitt akku makita gruen kurz' },
+    { id:'werkzeug-garten', g:'werkzeug', t:'Makita Akku-Freischneider', s:'Garten & Grünpflege',
+      k:'freischneider motorsense sense trimmer gestruepp hohes gras unkraut wildwuchs boeschung brennnessel maehen trimmen wiese verwildert grundstueck' },
+    { id:'werkzeug-garten', g:'werkzeug', t:'Makita Akku-Heckenschere, lang', s:'Garten & Grünpflege — Teleskop',
+      k:'hecke heckenschere schneiden schnitt straeucher busch buesche thuja lang hoch stange teleskop garten gruen zurueckschneiden' },
+    { id:'werkzeug-garten', g:'werkzeug', t:'Makita Akku-Heckenschere, klappbar', s:'Garten & Grünpflege',
+      k:'hecke heckenschere schneiden schnitt straeucher busch buesche klappbar handlich garten zurueckschneiden' },
+
+    // --- Holz, Metall & Montage ---
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Akku-Handkreissäge', s:'Holz, Metall & Montage',
+      k:'saege saegen kreissaege handkreissaege holz brett bretter balken zuschnitt schneiden akku makita gerade' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Metabo Tischkreissäge', s:'Holz, Metall & Montage',
+      k:'tischkreissaege tischsaege saege saegen holz zuschnitt bretter laminat parkett leisten metabo praezise gerade werkstatt' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Akku-Säbelsäge', s:'Holz, Metall & Montage',
+      k:'saebelsaege fuchsschwanz saegen ast aeste baum abriss palette rohr metall holz grob demontage schneiden' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Akku-Magazinschrauber', s:'Holz, Metall & Montage — Trockenbau',
+      k:'schrauben schrauber magazinschrauber akkuschrauber trockenbau rigips gipskarton decke wand platten schnell montage' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Akku-Multitool', s:'Holz, Metall & Montage',
+      k:'multitool oszillierend schneiden schleifen saegen fugen silikon ausschnitt feinarbeit klein ecken' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Akku-Stichsäge', s:'Holz, Metall & Montage',
+      k:'stichsaege saege saegen kurven rundung ausschnitt holz arbeitsplatte spuele loch schneiden' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Akku-Hobel', s:'Holz, Metall & Montage',
+      k:'hobel hobeln holz glaetten tuer tuere abtragen dicke brett balken klemmt' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Oberfräse, inkl. Aufsätze', s:'Holz, Metall & Montage',
+      k:'oberfraese fraese fraesen holz nut kante muster aufsaetze verzierung rundung moebelbau' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Dremel, inkl. Zubehör', s:'Holz, Metall & Montage',
+      k:'dremel schleifen gravieren polieren fein klein basteln modellbau trennen zubehoer praezise' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Akku-Flex', s:'Holz, Metall & Montage',
+      k:'flex winkelschleifer trennen schneiden metall stein fliesen schleifen akku trennscheibe rohr' },
+    { id:'werkzeug-holz', g:'werkzeug', t:'Makita Flex 230 V', s:'Holz, Metall & Montage',
+      k:'flex winkelschleifer trennen schneiden metall stein beton fliesen schleifen strom kabel stark trennscheibe' },
+
+    // --- Reinigung & Sanierung ---
+    { id:'werkzeug-reinigung', g:'werkzeug', t:'Bosch Staubsauger', s:'Reinigung & Sanierung',
+      k:'staubsauger sauger saugen staub dreck reinigen sauber saubermachen putzen bosch baustelle' },
+    { id:'werkzeug-reinigung', g:'werkzeug', t:'Hochdruckreiniger 190 bar', s:'Reinigung & Sanierung — inkl. Aufsätze',
+      k:'hochdruckreiniger hochdruck kaercher sauber saubermachen reinigen putzen waschen abspritzen dreck schmutz moos algen gruenbelag terrasse einfahrt pflaster hof fassade wand auto wohnwagen zaun druck 190 bar wasser' },
+    { id:'werkzeug-reinigung', g:'werkzeug', t:'Nassauger', s:'Reinigung & Sanierung',
+      k:'nassauger nass wasser saugen keller ueberschwemmung wasserschaden aufsaugen sauber industriesauger pumpen ausraeumen' },
+    { id:'werkzeug-reinigung', g:'werkzeug', t:'Ozon-Generator', s:'Reinigung & Sanierung',
+      k:'ozon geruch geruche stinkt riecht rauch raucher schimmel muffig desinfizieren neutralisieren auto wohnung keller tiergeruch katze hund frisch' },
+    { id:'werkzeug-reinigung', g:'werkzeug', t:'Renovierungsschleifer', s:'Reinigung & Sanierung',
+      k:'schleifen schleifer renovieren renovierung wand decke tapete putz farbe spachtel glaetten sanieren giraffe streichen malern vorbereiten' },
+
+    // --- Baustellen-Equipment ---
+    { id:'werkzeug-baustelle', g:'werkzeug', t:'Makita Akku-Kompressor', s:'Baustellen-Equipment',
+      k:'kompressor luft druckluft reifen aufpumpen pumpe akku mobil unterwegs' },
+    { id:'werkzeug-baustelle', g:'werkzeug', t:'Kompressor, 230 V', s:'Baustellen-Equipment',
+      k:'kompressor luft druckluft reifen aufpumpen druckluftwerkzeug strom stark werkstatt' },
+    { id:'werkzeug-baustelle', g:'werkzeug', t:'Baustellen-Strahler, Akku', s:'Baustellen-Equipment',
+      k:'licht beleuchtung strahler baustrahler lampe leuchte dunkel akku mobil arbeitslicht hell abends' },
+    { id:'werkzeug-baustelle', g:'werkzeug', t:'Baustellen-Strahler, 230 V', s:'Baustellen-Equipment',
+      k:'licht beleuchtung strahler baustrahler lampe leuchte dunkel strom hell arbeitslicht halle keller' },
+    { id:'werkzeug-baustelle', g:'werkzeug', t:'Baustellen-Leitern', s:'Baustellen-Equipment',
+      k:'leiter leitern hoch hoehe steigen dach decke streichen malern geruest dachrinne oben' },
+
+    // --- Event ---
+    { id:'werkzeug-event', g:'werkzeug', t:'Partyzelt 12 × 6 m', s:'Event',
+      k:'zelt partyzelt festzelt party fest feier geburtstag hochzeit veranstaltung event garten regen ueberdachung pavillon gross gaeste sommerfest' }
+  ];
+
+  var searchOverlay = document.getElementById('searchOverlay');
+  if (searchOverlay) {
+    var searchInput = document.getElementById('searchInput');
+    var searchResults = document.getElementById('searchResults');
+    var searchOpen = document.getElementById('searchOpen');
+    var searchOpenMobile = document.getElementById('searchOpenMobile');
+    var searchClose = document.getElementById('searchClose');
+    var activeIdx = -1;
+
+    // fold umlauts + lowercase so "saege" matches "Säge" and "Loch" matches "loch"
+    function fold(str){
+      return str.toLowerCase()
+        .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+        .replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+    }
+
+    // edit distance capped at 1 — catches single typos like "hochdruckreinger"
+    function closeEnough(a, b){
+      if (Math.abs(a.length - b.length) > 1) return false;
+      var i = 0, j = 0, diff = 0;
+      while (i < a.length && j < b.length) {
+        if (a[i] === b[j]) { i++; j++; continue; }
+        if (++diff > 1) return false;
+        if (a.length > b.length) i++;
+        else if (a.length < b.length) j++;
+        else { i++; j++; }
+      }
+      return diff + (a.length - i) + (b.length - j) <= 1;
+    }
+
+    // Each searchable word carries a weight: the product name counts most, and within
+    // the keyword list the first entries count more than the last — so "sauber" ranks
+    // the Hochdruckreiniger (4th keyword) above the Laubbläser (12th keyword).
+    var indexed = SEARCH_INDEX.map(function(item){
+      var hay = [];
+      fold(item.t).split(' ').forEach(function(w){ if (w) hay.push({ w: w, weight: 3.0 }); });
+      fold(item.s).split(' ').forEach(function(w){ if (w) hay.push({ w: w, weight: 1.2 }); });
+      var kws = fold(item.k).split(' ').filter(Boolean);
+      kws.forEach(function(w, i){
+        hay.push({ w: w, weight: 2.2 - (i / Math.max(kws.length - 1, 1)) * 1.4 });
+      });
+      return { item: item, hay: hay };
+    });
+
+    function scoreEntry(entry, tokens){
+      var total = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var token = tokens[t], best = 0;
+        for (var w = 0; w < entry.hay.length; w++) {
+          var word = entry.hay[w].w, weight = entry.hay[w].weight, strength = 0;
+          if (word === token) strength = 10;
+          else if (word.indexOf(token) === 0) strength = 6;
+          else if (token.length >= 4 && word.indexOf(token) > 0) strength = 2.5;
+          else if (token.length >= 5 && closeEnough(token, word)) strength = 2;
+          if (strength) best = Math.max(best, strength * weight);
+        }
+        if (best === 0) return 0;   // every word the user typed must match somewhere
+        total += best;
+      }
+      return total;
+    }
+
+    function highlight(text, tokens){
+      var out = '', rest = text;
+      var pattern = tokens.filter(function(t){ return t.length >= 3; })
+        .map(function(t){ return t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); });
+      if (!pattern.length) return escapeHtml(text);
+      var re = new RegExp('(' + pattern.join('|') + ')', 'gi');
+      var idx = 0, m;
+      while ((m = re.exec(rest)) !== null) {
+        out += escapeHtml(rest.slice(idx, m.index)) + '<mark>' + escapeHtml(m[0]) + '</mark>';
+        idx = m.index + m[0].length;
+        if (m.index === re.lastIndex) re.lastIndex++;
+      }
+      return out + escapeHtml(rest.slice(idx));
+    }
+
+    function escapeHtml(s){
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    var TIPS = ['Loch bohren', 'Umzug', 'sauber machen', 'Hecke schneiden', 'Schutt entsorgen', 'Auto transportieren'];
+
+    function renderTips(){
+      var html = '<div class="search-tips"><div class="search-tips-label">Beliebte Suchen</div><div class="search-tip-pills">';
+      TIPS.forEach(function(tip){
+        html += '<button type="button" class="search-tip" data-tip="' + tip + '">' + tip + '</button>';
+      });
+      searchResults.innerHTML = html + '</div></div>';
+      searchResults.querySelectorAll('.search-tip').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          searchInput.value = btn.getAttribute('data-tip');
+          runSearch();
+          searchInput.focus();
+        });
+      });
+    }
+
+    function runSearch(){
+      var raw = searchInput.value.trim();
+      activeIdx = -1;
+      if (!raw) { renderTips(); return; }
+      var tokens = fold(raw).split(' ').filter(Boolean);
+      if (!tokens.length) { renderTips(); return; }
+
+      var hits = [];
+      indexed.forEach(function(entry){
+        var score = scoreEntry(entry, tokens);
+        if (score > 0) hits.push({ item: entry.item, score: score });
+      });
+      hits.sort(function(a, b){ return b.score - a.score; });
+
+      if (!hits.length) {
+        searchResults.innerHTML =
+          '<div class="search-empty"><p>Dazu haben wir nichts gefunden.<br>' +
+          'Fragen Sie einfach kurz nach — oft haben wir trotzdem das Passende da.<br><br>' +
+          '<a target="_blank" rel="noopener" href="https://wa.me/4915678690950?text=' +
+          encodeURIComponent('Hallo Team Riemer, haben Sie: ' + raw + '?') +
+          '">Per WhatsApp fragen →</a></p></div>';
+        return;
+      }
+
+      var groups = { fahrzeug: [], werkzeug: [] };
+      hits.forEach(function(h){ groups[h.item.g].push(h.item); });
+
+      var html = '';
+      [['fahrzeug','Fahrzeuge & Anhänger'], ['werkzeug','Werkzeug & Equipment']].forEach(function(pair){
+        var list = groups[pair[0]];
+        if (!list.length) return;
+        html += '<div class="search-group-label">' + pair[1] + '</div>';
+        list.forEach(function(item){
+          html += '<button type="button" class="search-hit" data-target="' + item.id + '">' +
+                  '<div class="search-hit-title">' + highlight(item.t, tokens) + '</div>' +
+                  '<div class="search-hit-sub">' + highlight(item.s, tokens) + '</div></button>';
+        });
+      });
+      searchResults.innerHTML = html;
+      searchResults.querySelectorAll('.search-hit').forEach(function(btn){
+        btn.addEventListener('click', function(){ goToTarget(btn.getAttribute('data-target')); });
+      });
+    }
+
+    function goToTarget(id){
+      var el = document.getElementById(id);
+      closeSearch();
+      if (!el) return;
+      // open the accordion if the target is a collapsed section
+      if (el.tagName.toLowerCase() === 'details') el.open = true;
+      var detail = el.querySelector('details');
+      if (detail) detail.open = true;
+      setTimeout(function(){
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        el.classList.remove('search-flash');
+        void el.offsetWidth;
+        el.classList.add('search-flash');
+      }, 60);
+    }
+
+    function openSearch(){
+      searchOverlay.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      searchInput.value = '';
+      renderTips();
+      setTimeout(function(){ searchInput.focus(); }, 40);
+    }
+    function closeSearch(){
+      searchOverlay.setAttribute('hidden', '');
+      document.body.style.overflow = '';
+    }
+
+    if (searchOpen) searchOpen.addEventListener('click', openSearch);
+    if (searchOpenMobile) searchOpenMobile.addEventListener('click', function(){
+      var menu = document.getElementById('mobileMenu');
+      if (menu) menu.classList.remove('open');
+      openSearch();
+    });
+    searchClose.addEventListener('click', closeSearch);
+    searchInput.addEventListener('input', runSearch);
+    searchOverlay.addEventListener('click', function(e){
+      if (e.target === searchOverlay) closeSearch();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && !searchOverlay.hasAttribute('hidden')) closeSearch();
+      // keyboard navigation through results
+      if (searchOverlay.hasAttribute('hidden')) return;
+      var hitEls = searchResults.querySelectorAll('.search-hit');
+      if (!hitEls.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIdx += (e.key === 'ArrowDown' ? 1 : -1);
+        if (activeIdx < 0) activeIdx = hitEls.length - 1;
+        if (activeIdx >= hitEls.length) activeIdx = 0;
+        hitEls.forEach(function(el){ el.classList.remove('active'); });
+        hitEls[activeIdx].classList.add('active');
+        hitEls[activeIdx].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        var pick = activeIdx >= 0 ? hitEls[activeIdx] : hitEls[0];
+        if (pick) goToTarget(pick.getAttribute('data-target'));
+      }
+    });
   }
 </script>
 
