@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://verleih-riemer.de/sitemap.xml
