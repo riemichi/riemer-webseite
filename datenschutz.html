@@ -4,12 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Datenschutz — KFZ &amp; Anhänger Verleih Riemer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" media="print" onload="this.media='all';this.onload=null;">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap"></noscript>
+<!-- Schriften liegen auf dem eigenen Server (keine Verbindung zu Google) -->
+<link rel="preload" as="font" type="font/woff2" href="fonts/inter-400.woff2" crossorigin>
 <style>
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:400; font-display:swap; src:url('fonts/inter-400.woff2') format('woff2'); }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:500; font-display:swap; src:url('fonts/inter-500.woff2') format('woff2'); }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:600; font-display:swap; src:url('fonts/inter-600.woff2') format('woff2'); }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:700; font-display:swap; src:url('fonts/inter-700.woff2') format('woff2'); }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:800; font-display:swap; src:url('fonts/inter-800.woff2') format('woff2'); }
+  @font-face{ font-family:'IBM Plex Mono'; font-style:normal; font-weight:500; font-display:swap; src:url('fonts/ibm-plex-mono-500.woff2') format('woff2'); }
+
   :root{ --ink:#161513; --ink-soft:#4a4742; --paper:#faf9f6; --line:rgba(22,21,19,0.12); --accent:#c9911a; }
   *{ box-sizing:border-box; }
   body{ margin:0; background:var(--paper); color:var(--ink); font-family:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height:1.6; }
@@ -19,6 +23,10 @@
   h1{ font-size:34px; font-weight:800; margin:20px 0 30px; letter-spacing:-0.01em; }
   h2{ font-size:18px; font-weight:700; margin:34px 0 10px; }
   p{ margin:6px 0; color:var(--ink-soft); font-size:15px; }
+  h3{ font-size:15.5px; font-weight:700; margin:22px 0 6px; }
+  ul{ margin:6px 0 6px; padding-left:20px; color:var(--ink-soft); font-size:15px; }
+  li{ margin:3px 0; }
+  .stand{ margin-top:44px; font-size:13px; color:var(--ink-soft); }
   .note{
     margin-top:50px; padding:18px 20px; border:1px solid var(--line); border-radius:4px;
     font-size:13px; color:var(--ink-soft); background:#f1efe9;
@@ -31,27 +39,71 @@
     <a class="back" href="index.html">← Zurück zur Startseite</a> <span style="opacity:0.4;">|</span> <a href="impressum.html" style="margin-left:16px;">Impressum</a> · <a href="agb.html">AGB</a>
     <h1>Datenschutzerklärung</h1>
 
-    <h2>Verantwortlicher</h2>
-    <p>Michael Riemer, Roßbergring 76, 64354 Reinheim, verleih.riemer@gmail.com</p>
+    <h2>1. Verantwortlicher</h2>
+    <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
+    <p>Michael Riemer<br>KFZ- und Anhänger Verleih Riemer (Einzelunternehmen)<br>Roßbergring 76, 64354 Reinheim<br>
+    Telefon: 0176 82548282 · E-Mail: <a href="mailto:verleih.riemer@gmail.com">verleih.riemer@gmail.com</a></p>
+    <p>Ein Datenschutzbeauftragter ist nicht bestellt, da hierzu keine gesetzliche Pflicht besteht.</p>
 
-    <h2>WhatsApp-Kontakt</h2>
-    <p>Diese Website enthält Links, die eine Kontaktaufnahme über WhatsApp (Meta Platforms Ireland Ltd.) ermöglichen. Beim Anklicken werden Sie zu WhatsApp weitergeleitet; es werden dabei keine Daten von unserer Website an WhatsApp übermittelt, bevor Sie die Nachricht selbst absenden. Es gilt die Datenschutzerklärung von WhatsApp/Meta.</p>
+    <h2>2. Das Wichtigste in Kürze</h2>
+    <ul>
+      <li>Diese Website setzt <strong>keine Cookies</strong> und verwendet <strong>keine Analyse- oder Tracking-Dienste</strong> und keine Werbenetzwerke.</li>
+      <li>Schriften und Bilder werden von unserem eigenen Webspace geladen. Beim Seitenaufruf werden keine Daten an Google oder andere Drittanbieter übertragen.</li>
+      <li>Es gibt kein Kontaktformular. Personenbezogene Daten erhalten wir nur, wenn Sie uns selbst per WhatsApp, Telefon oder E-Mail kontaktieren oder etwas bei uns mieten.</li>
+    </ul>
 
-    <h2>Google Maps</h2>
-    <p>Wir verlinken auf Google Maps zur Anzeige unseres Standorts. Beim Anklicken des Links werden Sie zu Google Maps weitergeleitet; es gilt die Datenschutzerklärung von Google (Google Ireland Limited).</p>
+    <h2>3. Hosting und Server-Logdateien</h2>
+    <p>Diese Website wird bei GitHub Pages gehostet, einem Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf der Seiten verarbeitet der Hosting-Anbieter technisch notwendige Zugriffsdaten, insbesondere:</p>
+    <ul>
+      <li>IP-Adresse des anfragenden Geräts,</li>
+      <li>Datum und Uhrzeit des Zugriffs,</li>
+      <li>aufgerufene Seite bzw. Datei,</li>
+      <li>Browsertyp und -version, Betriebssystem sowie die zuvor besuchte Seite (Referrer).</li>
+    </ul>
+    <p>Diese Daten werden benötigt, um die Website auszuliefern und ihre Sicherheit und Stabilität zu gewährleisten (z.&nbsp;B. zur Abwehr von Angriffen). Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in einer sicheren und zuverlässigen Bereitstellung der Website.</p>
+    <p>Dabei können Daten in die USA übermittelt werden. GitHub gibt an, die Grundsätze des EU-US Data Privacy Framework einzuhalten. Die Rechtsgrundlage für die Übermittlung ist Art. 45 DSGVO, ergänzend verwendet GitHub Standardvertragsklauseln der EU-Kommission. Wir selbst haben keinen Zugriff auf diese Logdaten und führen sie nicht mit anderen Daten zusammen. Nähere Informationen finden Sie in der Datenschutzerklärung von GitHub: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">docs.github.com</a>.</p>
 
-    <h2>Bildmaterial</h2>
-    <p>Auf dieser Seite verwendete Beispielbilder stammen von Pexels.com und werden gemäß der Pexels-Lizenz kostenfrei genutzt. Diese Bilder werden durch eigenes Fotomaterial ersetzt.</p>
+    <h2>4. SSL-/TLS-Verschlüsselung</h2>
+    <p>Diese Website nutzt aus Sicherheitsgründen eine SSL-/TLS-Verschlüsselung. Sie erkennen eine verschlüsselte Verbindung am Schloss-Symbol und an „https://“ in der Adresszeile Ihres Browsers.</p>
 
-    <h2>Hosting</h2>
-    <p>Diese Website wird über GitHub Pages (GitHub Inc.) gehostet. Beim Aufruf der Seite können durch den Hosting-Anbieter technisch bedingt Server-Logdaten (z. B. IP-Adresse, Zugriffszeit) verarbeitet werden.</p>
+    <h2>5. Kontaktaufnahme</h2>
+    <h3>Per WhatsApp</h3>
+    <p>Über die WhatsApp-Schaltflächen auf dieser Website können Sie uns eine Nachricht schreiben. Die Schaltflächen sind einfache Links. Erst wenn Sie darauf tippen, öffnet sich WhatsApp, ein Dienst der WhatsApp Ireland Limited, Merrion Road, Dublin 4, D04 X2K5, Irland (Meta-Konzern). Vorher werden keine Daten an WhatsApp übertragen. Wenn Sie uns über WhatsApp schreiben, verarbeitet WhatsApp Ihre Telefonnummer, Ihren Profilnamen und die Nachrichteninhalte. Dabei können Daten auch an Meta Platforms, Inc. in den USA übermittelt werden. Es gilt die Datenschutzrichtlinie von WhatsApp: <a href="https://www.whatsapp.com/legal/privacy-policy-eea" target="_blank" rel="noopener">whatsapp.com</a>.</p>
+    <p>Die Nutzung von WhatsApp ist freiwillig. Sie können uns jederzeit auch per Telefon oder E-Mail erreichen.</p>
+    <h3>Per Telefon oder E-Mail</h3>
+    <p>Wenn Sie uns anrufen oder eine E-Mail schreiben, verarbeiten wir die Angaben, die Sie uns dabei mitteilen, z.&nbsp;B. Name, Telefonnummer, E-Mail-Adresse, gewünschter Zeitraum und Fahrzeug.</p>
+    <h3>Zweck, Rechtsgrundlage und Speicherdauer</h3>
+    <p>Wir verarbeiten Ihre Anfrage, um sie zu beantworten und Ihnen ein Angebot zu machen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. bei allgemeinen Anfragen Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse ist die Beantwortung Ihrer Anfrage. Wir löschen die Daten, sobald die Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
 
-    <h2>Ihre Rechte</h2>
-    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten sowie ein Beschwerderecht bei der zuständigen Datenschutzaufsichtsbehörde.</p>
+    <h2>6. Anmietung von Fahrzeugen, Anhängern und Werkzeug</h2>
+    <p>Wenn Sie bei uns etwas mieten, verarbeiten wir die Daten, die für den Mietvertrag erforderlich sind. Dazu gehören Name, Anschrift, Kontaktdaten, Angaben aus Personalausweis und Führerschein (z.&nbsp;B. Führerscheinklasse), Mietzeitraum, Mietgegenstand, Kaution sowie Zahlungsdaten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).</p>
+    <p>Wir müssen prüfen, ob Sie das Fahrzeug fahren dürfen, und im Schadensfall oder bei Verkehrsverstößen während der Mietzeit Auskunft geben können. Rechtsgrundlage dafür ist Art. 6 Abs. 1 lit. c DSGVO (rechtliche Verpflichtung) bzw. lit. f DSGVO (berechtigtes Interesse an der Durchsetzung und Abwehr von Ansprüchen).</p>
+    <p>Rechnungen und steuerlich relevante Unterlagen bewahren wir nach den gesetzlichen Fristen auf (in der Regel bis zu 10 Jahre nach Handels- und Steuerrecht). Rechtsgrundlage ist Art. 6 Abs. 1 lit. c DSGVO. Die übrigen Daten löschen wir, sobald sie für die Abwicklung des Vertrags und eventuelle Ansprüche nicht mehr benötigt werden.</p>
+    <p>Bei Zahlung per PayPal werden die für die Zahlung notwendigen Daten an die PayPal (Europe) S.à r.l. et Cie, S.C.A., 22–24 Boulevard Royal, L-2449 Luxemburg, übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.</p>
 
-    <div class="note">
-      <strong>Hinweis:</strong> Dies ist eine Platzhalter-Datenschutzerklärung als Ausgangspunkt, kein rechtsverbindlicher Text. Bitte vor Veröffentlichung mit einem Generator wie e-recht24.de vervollständigen und/oder anwaltlich prüfen lassen — insbesondere falls später Analyse-Tools, Cookies oder ein Kontaktformular hinzukommen.
-    </div>
+    <h2>7. Links zu anderen Websites</h2>
+    <p>Diese Website enthält Links zu externen Angeboten, etwa zu Google Maps (Standort), zu unserem Profil bei Kleinanzeigen und zu Google-Bewertungen. Diese Inhalte sind nicht in unsere Seite eingebunden. Erst wenn Sie einen Link anklicken, werden Sie zum jeweiligen Anbieter weitergeleitet, und ab dann gilt dessen Datenschutzerklärung.</p>
+
+    <h2>8. Ihre Rechte</h2>
+    <p>Sie haben uns gegenüber folgende Rechte hinsichtlich Ihrer personenbezogenen Daten:</p>
+    <ul>
+      <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+      <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+      <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+      <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li>Recht auf Widerspruch gegen Verarbeitungen, die auf Art. 6 Abs. 1 lit. f DSGVO beruhen (Art. 21 DSGVO)</li>
+    </ul>
+    <p>Wenden Sie sich dazu einfach formlos an die oben genannten Kontaktdaten.</p>
+    <p>Außerdem haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO). Für uns zuständig ist: Der Hessische Beauftragte für Datenschutz und Informationsfreiheit, Gustav-Stresemann-Ring 1, 65189 Wiesbaden, <a href="https://datenschutz.hessen.de" target="_blank" rel="noopener">datenschutz.hessen.de</a>.</p>
+
+    <h2>9. Keine automatisierte Entscheidungsfindung</h2>
+    <p>Wir setzen keine automatisierte Entscheidungsfindung und kein Profiling im Sinne von Art. 22 DSGVO ein.</p>
+
+    <h2>10. Pflicht zur Bereitstellung von Daten</h2>
+    <p>Sie können diese Website nutzen, ohne uns persönliche Daten mitzuteilen. Für einen Mietvertrag benötigen wir allerdings die unter Punkt 6 genannten Angaben. Ohne diese Angaben können wir keinen Vertrag abschließen.</p>
+
+    <p class="stand">Stand: September 2026</p>
   </div>
 </body>
 </html>
